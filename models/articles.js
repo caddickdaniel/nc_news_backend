@@ -4,7 +4,8 @@ exports.getArticles = (
   limit = 10,
   sort_by = 'created_at',
   p,
-  order = 'desc'
+  order = 'desc',
+  author
 ) => {
   return connection
     .select(
@@ -14,7 +15,7 @@ exports.getArticles = (
       'articles.title',
       'articles.topic',
       'articles.votes',
-      'articles.username AS author'
+      'articles.author'
     )
     .count('comments.article_id AS comment_count')
     .from('articles')
@@ -22,7 +23,8 @@ exports.getArticles = (
     .groupBy('articles.article_id')
     .limit(limit, p)
     .offset((p - 1) * limit)
-    .orderBy(sort_by, order);
+    .orderBy(sort_by, order)
+    .where('articles.author', '=', author);
 };
 
 exports.getArticleCount = () => {
@@ -33,7 +35,7 @@ exports.getArticlesByID = articleById => {
   return connection
     .select(
       'articles.article_id',
-      'articles.username AS author',
+      'articles.author',
       'articles.title',
       'articles.votes',
       'articles.topic',

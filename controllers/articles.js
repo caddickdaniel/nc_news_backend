@@ -7,10 +7,13 @@ const {
 } = require('../models/articles');
 
 exports.sendArticles = (req, res, next) => {
-  const { limit, sort_by, p, order } = req.query;
+  const { limit, sort_by, p, order, author } = req.query;
   // console.log(req.params);
 
-  Promise.all([getArticleCount(), getArticles(limit, sort_by, p, order)])
+  Promise.all([
+    getArticleCount(),
+    getArticles(limit, sort_by, p, order, author)
+  ])
     .then(([total_count, articles]) => {
       // console.log(articles);
       res.status(200).send({ total_count, articles });

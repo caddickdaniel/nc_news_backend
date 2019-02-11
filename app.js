@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.use('/api', apiRouter);
 
 app.use((err, req, res, next) => {
-  console.log(err, '<<<<');
+  // console.log(err, '<<<<');
   //if (err.code === 23505) return Promise.reject({status: 422, message: 'Sorry, the key you have entered already exists'})
   //22P02 - err.code for invalid syntax, expected integer, got string
 
