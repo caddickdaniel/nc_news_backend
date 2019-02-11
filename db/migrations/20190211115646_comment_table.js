@@ -3,7 +3,7 @@ exports.up = function(connection, Promise) {
   return connection.schema.createTable('comments', commentTable => {
     commentTable.increments('comment_id').primary();
     commentTable
-      .string('username')
+      .string('author')
       .references('username')
       .inTable('users')
       .onDelete('CASCADE');

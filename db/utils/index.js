@@ -3,7 +3,7 @@ const { articleData, commentData } = require('../data');
 const formatArticles = articleData => {
   return articleData.map(({ created_by, created_at, ...restOfArticle }) => {
     return {
-      username: created_by,
+      author: created_by,
       created_at: new Date(created_at),
       ...restOfArticle
     };
@@ -26,7 +26,7 @@ const formatComments = (commentData, articleRef) => {
   return commentData.map(
     ({ created_at, created_by, belongs_to, body, votes }) => ({
       created_at: new Date(created_at),
-      username: created_by,
+      author: created_by,
       article_id: articleRef[belongs_to],
       body,
       votes
