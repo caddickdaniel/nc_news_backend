@@ -50,6 +50,14 @@ exports.getArticlesByID = articleById => {
     .returning('*');
 };
 
+exports.addArticle = newArticle => {
+  // console.log(newArticle);
+  return connection
+    .insert(newArticle)
+    .into('articles')
+    .returning('*');
+};
+
 exports.patchArticleByID = () => {
   return connection;
 };

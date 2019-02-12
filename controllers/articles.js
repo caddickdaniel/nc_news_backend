@@ -3,7 +3,8 @@ const {
   getArticleCount,
   getArticlesByID,
   patchArticleByID,
-  deleteArticleByID
+  deleteArticleByID,
+  addArticle
 } = require('../models/articles');
 
 exports.sendArticles = (req, res, next) => {
@@ -30,6 +31,15 @@ exports.sendArticlesByID = (req, res, next) => {
       res.status(200).send({ articles });
     })
     .catch(err => next(err));
+};
+
+exports.sendNewArticle = (req, res, next) => {
+  const articleToAdd = req.body;
+
+  // console.log(article);
+  addArticle(articleToAdd)
+    .then(([article]) => res.status(201).send({ article }))
+    .catch(err => console.log(err) || next(err));
 };
 
 exports.sendPatchedArticle = () => {

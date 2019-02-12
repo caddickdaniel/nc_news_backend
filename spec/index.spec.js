@@ -249,7 +249,7 @@ describe('/api', () => {
         .get('/api/articles?order=asc')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body);
+          // console.log(body.articles);
           expect(body.articles[0].title).to.equal('Moustache');
         });
     });
@@ -273,6 +273,30 @@ describe('/api', () => {
           expect(body.articles[0].topic).to.equal('mitch');
         });
     });
+    it('POST/ status 201/ adds a article to the article object', () => {
+      const newArticle = {
+        title: 'The life of a Northcoder',
+        topic: 'cats',
+        author: 'rogersop',
+        body: 'some relevant information about stuff'
+      };
+      return request
+        .post('/api/articles')
+        .send(newArticle)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.article.title).to.equal('The life of a Northcoder');
+          expect(body.article).to.contain.keys(
+            'title',
+            'topic',
+            'author',
+            'body',
+            'created_at'
+          );
+          expect(body.article).to.be.an('object');
+        });
+    });
+
     //     it('PATCH/ status 204/ responds with the article that has just been patched', () => {
     //       return request
     //         .get('/api/articles/:article_id')
