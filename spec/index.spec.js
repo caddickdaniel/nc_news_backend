@@ -263,14 +263,14 @@ describe('/api', () => {
           expect(body.articles.topic).to.equal('mitch');
         });
     });
-    it.only('GET/ status 200/ responds with an array of articles by author', () => {
+    it('GET/ status 200/ responds with an array of articles by author', () => {
       return request
-        .get('/api/articles?author=jessjelly')
+        .get('/api/articles?author=icellusedkars')
         .expect(200)
         .then(({ body }) => {
-          console.log(body.articles);
+          // console.log(body.articles);
           expect(body.articles).to.be.an('array');
-          expect(body.articles.topic).to.equal('coding');
+          expect(body.articles[0].topic).to.equal('mitch');
         });
     });
     //     it('PATCH/ status 204/ responds with the article that has just been patched', () => {

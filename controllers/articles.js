@@ -9,16 +9,16 @@ const {
 exports.sendArticles = (req, res, next) => {
   const { limit, sort_by, p, order, author } = req.query;
   // console.log(req.params);
-
+  const whereConditions = author ? { 'articles.author': author } : {};
   Promise.all([
     getArticleCount(),
-    getArticles(limit, sort_by, p, order, author)
+    getArticles(limit, sort_by, p, order, whereConditions)
   ])
     .then(([total_count, articles]) => {
       // console.log(articles);
       res.status(200).send({ total_count, articles });
     })
-    .catch(err => next(err));
+    .catch(err => console.log(err) || next(err));
 };
 
 exports.sendArticlesByID = (req, res, next) => {
