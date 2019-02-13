@@ -93,23 +93,9 @@ exports.commentsByID = (
 };
 
 exports.newCommentByID = newComment => {
-  console.log(newComment);
+  // console.log(newComment);
   return connection
     .insert(newComment)
     .into('comments')
     .returning('*');
 };
-
-// exports.addArticle = newArticle => {
-//   // console.log(newArticle);
-//   return connection
-//     .insert(newArticle)
-//     .into('articles')
-//     .returning('*');
-// };
-
-// knex('accounts')
-//   .where('activated', false)
-//   .del();
-
-//   const incVote = { inc_votes: newVote };

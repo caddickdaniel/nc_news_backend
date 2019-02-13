@@ -1,15 +1,19 @@
 const connection = require('../db/connection');
 
 exports.getUsers = () => {
-  return connection;
+  return connection('users').select('*');
 };
 
-exports.addUser = () => {
-  return connection;
+exports.addUser = userObj => {
+  return connection('users')
+    .insert(userObj)
+    .returning('*');
 };
 
-exports.getUsersByUsername = () => {
-  return connection;
+exports.getUsersByUsername = username => {
+  return connection('users')
+    .select('*')
+    .where('users.username', '=', username);
 };
 
 exports.getArticlesByUser = () => {

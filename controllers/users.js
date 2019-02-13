@@ -5,24 +5,24 @@ const {
   getArticlesByUser
 } = require('../models/users');
 
-exports.sendUsers = () => {
-  const users = req.body;
+exports.sendUsers = (req, res, next) => {
+  const userObj = req.body;
 
-  getUsers(users)
-    .then(([users]) => res.status(200).send({ users }))
+  getUsers(userObj)
+    .then(users => res.status(200).send({ users }))
     .catch(err => next(err));
 };
 
-exports.sendNewUser = () => {
-  const users = req.body;
+exports.sendNewUser = (req, res, next) => {
+  const userObj = req.body;
 
-  addUser(users)
-    .then(([users]) => res.status(201).send({ users }))
+  addUser(userObj)
+    .then(([user]) => res.status(201).send({ user }))
     .catch(err => next(err));
 };
 
-exports.sendUserByUsername = () => {
-  const users = req.body;
+exports.sendUserByUsername = (req, res, next) => {
+  const username = req.params;
 
   getUsersByUsername(users)
     .then(([users]) => res.status(200).send({ users }))

@@ -316,173 +316,157 @@ describe('/api', () => {
       it('DELETE/ status 204/ responds with a 204 and no-content', () => {
         return request.delete('/api/articles/2').expect(204);
       });
-
-      it('GET/ status 200/ responds with array of comments for given article_id', () => {
-        return request
-          .get('/api/articles/1/comments')
-          .expect(200)
-          .then(({ body }) => {
-            // console.log(body);
-            expect(body.comments).to.be.an('array');
-            expect(body.comments[0]).to.contain.keys(
-              'comment_id',
-              'votes',
-              'created_at',
-              'author',
-              'body'
-            );
-            expect(body.comments[0].comment_id).to.equal(2);
-          });
-      });
-      it('GET/ status 200/ responds with an array of comments limited to 10 (DEFAULT_CASE)', () => {
-        return request
-          .get('/api/articles/1/comments')
-          .expect(200)
-          .then(({ body }) => {
-            //   console.log(body.comments);
-            expect(body.comments).to.be.an('array');
-            expect(body.comments).to.have.length(10);
-          });
-      });
-      it('GET/ status 200/ responds with an array of comments limited to 5, (QUERY)', () => {
-        return request
-          .get('/api/articles/1/comments?limit=5')
-          .expect(200)
-          .then(({ body }) => {
-            // console.log(body.comments);
-            expect(body.comments).to.be.an('array');
-            expect(body.comments).to.have.length(5);
-            expect(body.comments[1].author).to.equal('icellusedkars');
-          });
-      });
-      it('GET/ status 200/ responds with an array of comments sorted by date(created_at) (DEFAULT_CASE)', () => {
-        return request
-          .get('/api/articles/1/comments')
-          .expect(200)
-          .then(({ body }) => {
-            // console.log(body.comments);
-            expect(body.comments[0].author).to.equal('butter_bridge');
-          });
-      });
-      it('GET/ status 200/ responds with an array of comments sorted by comment_id (QUERY)', () => {
-        return request
-          .get('/api/articles/1/comments?sort_by=comment_id')
-          .expect(200)
-          .then(({ body }) => {
-            // console.log(body.comments);
-            expect(body.comments[0].comment_id).to.equal(18);
-            expect(body.comments[0].author).to.equal('butter_bridge');
-          });
-      });
-      it('GET/ status 200/ responds with an array of comments sorted by order (DEFAULT CASE = DESC)', () => {
-        return request
-          .get('/api/articles/1/comments')
-          .expect(200)
-          .then(({ body }) => {
-            // console.log(body.comments);
-            expect(body.comments[0].author).to.equal('butter_bridge');
-            expect(body.comments[0].comment_id).to.equal(2);
-          });
-      });
-      it('GET/ status 200/ responds with an array of comments sorted by order (QUERY = ASC)', () => {
-        return request
-          .get('/api/articles/1/comments?order=asc')
-          .expect(200)
-          .then(({ body }) => {
-            // console.log(body.comments);
-            expect(body.comments[0].author).to.equal('butter_bridge');
-            expect(body.comments[0].comment_id).to.equal(18);
-          });
-      });
-      it('POST/ status 201/ responds with the posted comment', () => {
-        const newComment = {
-          author: 'butter_bridge',
-          body: 'This is a very interesting comment'
-        };
-        return request
-          .post('/api/articles/3/comments')
-          .send(newComment)
-          .expect(201)
-          .then(({ body }) => {
-            // console.log(body);
-            expect(body.comment.author).to.equal(newComment.author);
-            expect(body.comment.body).to.equal(newComment.body);
-          });
-      });
     });
   });
-  describe('comments/:comment_id', () => {
-    it.only('PATCH/ status 204/ responds with the comment thats just been updated', () => {
+  describe('/comments/:comment_id', () => {
+    it('GET/ status 200/ responds with array of comments for given article_id', () => {
+      return request
+        .get('/api/articles/1/comments')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.comments).to.be.an('array');
+          expect(body.comments[0]).to.contain.keys(
+            'comment_id',
+            'votes',
+            'created_at',
+            'author',
+            'body'
+          );
+          expect(body.comments[0].comment_id).to.equal(2);
+        });
+    });
+    it('GET/ status 200/ responds with an array of comments limited to 10 (DEFAULT_CASE)', () => {
+      return request
+        .get('/api/articles/1/comments')
+        .expect(200)
+        .then(({ body }) => {
+          //   console.log(body.comments);
+          expect(body.comments).to.be.an('array');
+          expect(body.comments).to.have.length(10);
+        });
+    });
+    it('GET/ status 200/ responds with an array of comments limited to 5, (QUERY)', () => {
+      return request
+        .get('/api/articles/1/comments?limit=5')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.comments);
+          expect(body.comments).to.be.an('array');
+          expect(body.comments).to.have.length(5);
+          expect(body.comments[1].author).to.equal('icellusedkars');
+        });
+    });
+    it('GET/ status 200/ responds with an array of comments sorted by date(created_at) (DEFAULT_CASE)', () => {
+      return request
+        .get('/api/articles/1/comments')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.comments);
+          expect(body.comments[0].author).to.equal('butter_bridge');
+        });
+    });
+    it('GET/ status 200/ responds with an array of comments sorted by comment_id (QUERY)', () => {
+      return request
+        .get('/api/articles/1/comments?sort_by=comment_id')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.comments);
+          expect(body.comments[0].comment_id).to.equal(18);
+          expect(body.comments[0].author).to.equal('butter_bridge');
+        });
+    });
+    it('GET/ status 200/ responds with an array of comments sorted by order (DEFAULT CASE = DESC)', () => {
+      return request
+        .get('/api/articles/1/comments')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.comments);
+          expect(body.comments[0].author).to.equal('butter_bridge');
+          expect(body.comments[0].comment_id).to.equal(2);
+        });
+    });
+    it('GET/ status 200/ responds with an array of comments sorted by order (QUERY = ASC)', () => {
+      return request
+        .get('/api/articles/1/comments?order=asc')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.comments);
+          expect(body.comments[0].author).to.equal('butter_bridge');
+          expect(body.comments[0].comment_id).to.equal(18);
+        });
+    });
+    it('POST/ status 201/ responds with the posted comment', () => {
+      const newComment = {
+        author: 'butter_bridge',
+        body: 'This is a very interesting comment'
+      };
+      return request
+        .post('/api/articles/3/comments')
+        .send(newComment)
+        .expect(201)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.comment.author).to.equal(newComment.author);
+          expect(body.comment.body).to.equal(newComment.body);
+        });
+    });
+    it('PATCH/ status 200/ responds with the comment thats just been updated', () => {
       const inc_votes = { inc_votes: 10 };
       return request
         .patch('/api/comments/10')
         .send(inc_votes)
         .expect(200)
         .then(({ body }) => {
-          console.log(body);
+          // console.log(body);
           expect(body.comment.author).to.equal('icellusedkars');
           expect(body.comment.votes).to.equal(10);
         });
     });
-
-    // it('PATCH/ status 204/ responds with the article that has just been patched', () => {
-    //   const incVote = { inc_votes: 10 };
-    //   return request
-    //     .patch('/api/articles/2')
-    //     .send(incVote)
-    //     .expect(200)
-    //     .then(({ body }) => {
-    //       // console.log(body);
-    //       expect(body.article).to.be.an('object');
-    //       expect(body.article.votes).to.equal(10);
-    //     });
-    // });
-    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    //     it('DELETE/ status 204/ deletes comment by id and responds with 204 and no-content', () => {
-    //       return request
-    //         .get('/api/articles/:article_id/comments/:comment_id')
-    //         .expect(204)
-    //         .then(({ body }) => {
-    //           //   console.log(body);
-    //           expect(body).to.equal('');
-    //           expect(body).to.equal('');
-    //         });
-    //     });
-    //   });
-    //   describe('/users', () => {
-    //     it('GET/ status 200/ responds with an array of user objects', () => {
-    //       return request
-    //         .get('/api/users')
-    //         .expect(200)
-    //         .then(({ body }) => {
-    //           //   console.log(body);
-    //           expect(body.users).to.be.an('array');
-    //           expect(body.users[0]).to.contain.keys(
-    //             'username',
-    //             'avatar_url',
-    //             'name'
-    //           );
-    //         });
-    //     });
-    //     it('POST/ status 201/ responds with the posted user', () => {
-    //       return request
-    //         .get('/api/users')
-    //         .expect(201)
-    //         .then(({ body }) => {
-    //           //   console.log(body);
-    //           expect(body.users).to.be.an('array');
-    //           expect(body.users[0].username).to.equal('');
-    //         });
-    //     });
+    it('DELETE/ status 204/ responds with a 204 and no-content', () => {
+      return request.delete('/api/articles/2').expect(204);
+    });
+  });
+  describe('/users', () => {
+    it('GET/ status 200/ responds with an array of user objects', () => {
+      return request
+        .get('/api/users')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.users).to.be.an('array');
+          expect(body.users[0]).to.contain.keys(
+            'username',
+            'avatar_url',
+            'name'
+          );
+        });
+    });
+    it('POST/ status 201/ responds with the posted user', () => {
+      const userObj = {
+        username: 'dantheman',
+        avatar_url: 'www.dankmemes.com',
+        name: 'Daniel Shmaddick'
+      };
+      return request
+        .post('/api/users')
+        .send(userObj)
+        .expect(201)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.user).to.be.an('object');
+          expect(body.user.username).to.equal('dantheman');
+        });
+    });
     //     it('GET/ status 200/ responds with a user object by username', () => {
     //       return request
     //         .get('/api/users/:username')
     //         .expect(200)
     //         .then(({ body }) => {
-    //           //   console.log(body);
-    //           expect(body.users).to.be.an('array');
-    //           expect(body.users[0].username).to.equal('');
-    //           expect(body.users[0]).to.contain.keys(
+    //           //   console.log(body.user);
+    //           expect(body.user).to.be.an('object');
+    //           expect(body.user.username).to.equal('');
+    //           expect(body.user[0]).to.contain.keys(
     //             'username',
     //             'avatar_url',
     //             'name'
