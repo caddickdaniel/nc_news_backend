@@ -5,7 +5,8 @@ const {
   sendNewArticle,
   sendPatchedArticle,
   sendDeletedArticle,
-  sendCommentsByID
+  sendCommentsByID,
+  sendNewCommentByID
 } = require('../controllers/articles');
 
 articleRouter
@@ -19,6 +20,9 @@ articleRouter
   .patch(sendPatchedArticle)
   .delete(sendDeletedArticle);
 
-articleRouter.route('/:article_id/comments').get(sendCommentsByID);
+articleRouter
+  .route('/:article_id/comments')
+  .get(sendCommentsByID)
+  .post(sendNewCommentByID);
 
 module.exports = articleRouter;

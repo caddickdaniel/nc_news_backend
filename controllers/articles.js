@@ -5,7 +5,8 @@ const {
   patchArticleByID,
   deleteArticleByID,
   addArticle,
-  commentsByID
+  commentsByID,
+  newCommentByID
 } = require('../models/articles');
 
 exports.sendArticles = (req, res, next) => {
@@ -63,8 +64,19 @@ exports.sendDeletedArticle = (req, res, next) => {
 
 exports.sendCommentsByID = (req, res, next) => {
   const { article_id } = req.params;
+  const { limit, p, sort_by, order } = req.query;
 
-  commentsByID(article_id)
-    .then(comments => res.status(200).send(comments))
+  commentsByID(article_id, limit, p, sort_by, order)
+    .then(comments => res.status(200).send({ comments }))
+    .catch(err => console.log(err) || next(err));
+};
+
+exports.sendNewCommentByID = (req, res, next) => {
+  const { article_id } = req.params;
+  const newComment = req.body;
+
+  // console.log(newComment);
+  newCommentByID({ article_id, ...newComment })
+    .then(([comment]) => res.status(201).send({ comment }))
     .catch(err => console.log(err) || next(err));
 };

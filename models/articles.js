@@ -72,9 +72,41 @@ exports.deleteArticleByID = article => {
     .del();
 };
 
-exports.commentsByID = article => {
-  return connection('articles');
+exports.commentsByID = (
+  article_id,
+  limit = 10,
+  p = 1,
+  sort_by = 'created_at',
+  order = 'desc'
+) => {
+  return (
+    connection('comments')
+      .select('comments.*')
+      .leftJoin('articles', 'articles.article_id', '=', 'comments.article_id')
+      // .groupBy('articles.article_id')
+      .where('comments.article_id', '=', article_id)
+      .limit(limit, p)
+      .offset((p - 1) * limit)
+      .orderBy(sort_by, order)
+      .returning('*')
+  );
 };
+
+exports.newCommentByID = newComment => {
+  console.log(newComment);
+  return connection
+    .insert(newComment)
+    .into('comments')
+    .returning('*');
+};
+
+// exports.addArticle = newArticle => {
+//   // console.log(newArticle);
+//   return connection
+//     .insert(newArticle)
+//     .into('articles')
+//     .returning('*');
+// };
 
 // knex('accounts')
 //   .where('activated', false)

@@ -7,6 +7,10 @@ app.use(bodyParser.json());
 
 app.use('/api', apiRouter);
 
+app.all('/*', (req, res) => {
+  res.status(404).send({ message: 'Page not found!' });
+});
+
 app.use((err, req, res, next) => {
   // console.log(err, '<<<<');
   //if (err.code === 23505) return Promise.reject({status: 422, message: 'Sorry, the key you have entered already exists'})
@@ -31,5 +35,9 @@ app.use((err, req, res, next) => {
   // } else
   res.status(500).send({ message: 'Oops! Something went wrong' });
 });
+
+// const badRequestCode = {
+//   22P02: 'Error message of some sort'
+// }
 
 module.exports = app;
