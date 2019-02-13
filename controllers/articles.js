@@ -4,7 +4,8 @@ const {
   getArticlesByID,
   patchArticleByID,
   deleteArticleByID,
-  addArticle
+  addArticle,
+  commentsByID
 } = require('../models/articles');
 
 exports.sendArticles = (req, res, next) => {
@@ -42,18 +43,28 @@ exports.sendNewArticle = (req, res, next) => {
     .catch(err => console.log(err) || next(err));
 };
 
-exports.sendPatchedArticle = () => {
-  const articles = req.body;
+exports.sendPatchedArticle = (req, res, next) => {
+  const { article_id } = req.params;
+  const { inc_votes } = req.body;
 
-  patchArticleByID(articles)
-    .then(([articles]) => res.status(204).send({ articles }))
-    .catch(err => next(err));
+  // console.log('ho');
+  patchArticleByID(article_id, inc_votes)
+    .then(([article]) => res.status(200).send({ article }))
+    .catch(err => console.log(err) || next(err));
 };
 
-exports.sendDeletedArticle = () => {
-  const articles = req.body;
+exports.sendDeletedArticle = (req, res, next) => {
+  const { article_id } = req.params;
 
-  deleteArticleByID(articles)
-    .then(([articles]) => res.status(204).send({ articles }))
-    .catch(err => next(err));
+  deleteArticleByID(article_id)
+    .then(() => res.sendStatus(204))
+    .catch(err => console.log(err) || next(err));
+};
+
+exports.sendCommentsByID = (req, res, next) => {
+  const { article_id } = req.params;
+
+  commentsByID(article_id)
+    .then(comments => res.status(200).send(comments))
+    .catch(err => console.log(err) || next(err));
 };

@@ -58,10 +58,26 @@ exports.addArticle = newArticle => {
     .returning('*');
 };
 
-exports.patchArticleByID = () => {
-  return connection;
+exports.patchArticleByID = (articleID, incBy) => {
+  // console.log(incBy);
+  return connection('articles')
+    .where('articles.article_id', '=', articleID)
+    .increment('votes', incBy)
+    .returning('*');
 };
 
-exports.deleteArticleByID = () => {
-  return connection;
+exports.deleteArticleByID = article => {
+  return connection('articles')
+    .where('articles.article_id', '=', article)
+    .del();
 };
+
+exports.commentsByID = article => {
+  return connection('articles');
+};
+
+// knex('accounts')
+//   .where('activated', false)
+//   .del();
+
+//   const incVote = { inc_votes: newVote };
