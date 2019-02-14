@@ -1,9 +1,4 @@
-const {
-  getUsers,
-  addUser,
-  getUsersByUsername,
-  getArticlesByUser
-} = require('../models/users');
+const { getUsers, addUser, getUsersByUsername } = require('../models/users');
 
 exports.sendUsers = (req, res, next) => {
   const userObj = req.body;

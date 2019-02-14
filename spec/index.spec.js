@@ -551,21 +551,3 @@ describe('/api', () => {
     // });
   });
 });
-
-//IN CONTROLLER WHEN 404 COMES BACK AS 200
-// if() return Promise.reject({status: 404, message: 'mp not found'}) <-- before res.status
-//then in app you need to create next middleware function with personalised error messages for various codes
-
-//it get status 200 each party has mp count property
-//return request
-//.get /api/parties
-//expect 200
-//then body
-//expect body parties [0] mpcount to equal ()
-
-// SELECT parties.party, parties.founded
-// COUNT (mps.mp_id) AS mp_count
-// FROM parties JOIN mps ON parties.party = mps.party
-// GROUP BY parties.party;
-// ORDER BY parties.party DESC
-// LIMIT 10;

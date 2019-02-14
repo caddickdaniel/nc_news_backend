@@ -43,8 +43,4 @@ app.use((err, req, res, next) => {
 // app.use(handle400);
 // app.use(handle404);
 
-// const badRequestCode = {
-//   22P02: 'Error message of some sort'
-// }
-
 module.exports = app;

@@ -44,4 +44,3 @@ exports.countTopicArticles = () => {
     .from('topics')
     .groupBy('articles.topic');
 };
-//NEEDS WORKING ON

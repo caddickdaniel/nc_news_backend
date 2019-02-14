@@ -34,6 +34,4 @@ const formatComments = (commentData, articleRef) => {
   );
 };
 
-//declare as variables
-
 module.exports = { formatArticles, formatComments, articleRef, userRef };
