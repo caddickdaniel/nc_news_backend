@@ -445,7 +445,7 @@ describe('/api', () => {
     it('POST/ status 201/ responds with the posted user', () => {
       const userObj = {
         username: 'dantheman',
-        avatar_url: 'www.dankmemes.com',
+        avatar_url: 'www.google.com',
         name: 'Daniel Shmaddick'
       };
       return request
@@ -489,7 +489,7 @@ describe('/api', () => {
         .get('/api/top')
         .expect(404)
         .then(({ body }) => {
-          console.log(body);
+          // console.log(body);
           expect(body.message).to.equal(
             'Sorry, this page was not found! Go to /api to see a list of endpoints'
           );
@@ -506,7 +506,7 @@ describe('/api', () => {
         .send(newTopic)
         .expect(400)
         .then(({ body }) => {
-          console.log(body);
+          // console.log(body);
           expect(body.message).to.equal(
             'Sorry, an incorrect format has been detected. Ensure you have typed in the correct format and try again'
           );
@@ -522,7 +522,7 @@ describe('/api', () => {
         .send(newTopic)
         .expect(422)
         .then(({ body }) => {
-          console.log(body);
+          // console.log(body);
           expect(body.message).to.equal(
             'Sorry, the value you have entered already exists'
           );

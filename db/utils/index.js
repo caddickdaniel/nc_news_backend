@@ -1,5 +1,3 @@
-const { articleData, commentData } = require('../data');
-
 const formatArticles = articleData => {
   return articleData.map(({ created_by, created_at, ...restOfArticle }) => {
     return {
