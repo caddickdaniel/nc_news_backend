@@ -22,18 +22,10 @@ exports.sendNewUser = (req, res, next) => {
 };
 
 exports.sendUserByUsername = (req, res, next) => {
-  const username = req.params;
+  const { username } = req.params;
+  // console.log(username);
 
-  getUsersByUsername(users)
-    .then(([users]) => res.status(200).send({ users }))
-    .catch(err => next(err));
-};
-
-exports.sendArticleByUser = () => {
-  const articles = req.body;
-  const { limit, sort_by, p, order } = req.query;
-
-  getArticlesByUser(articles, limit, sort_by, p, order)
-    .then(([articles]) => res.status(200).send({ articles }))
+  getUsersByUsername(username)
+    .then(([user]) => res.status(200).send({ user }))
     .catch(err => next(err));
 };

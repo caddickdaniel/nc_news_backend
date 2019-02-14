@@ -1,9 +1,7 @@
 const { getApiEndpoints } = require('../models/api');
 
-exports.sendApiEndpoints = () => {
-  const endpoints = req.body;
-
+exports.sendApiEndpoints = (req, res, next) => {
   getApiEndpoints(endpoints)
-    .then(([endpoints]) => res.status(200).send({ endpoints }))
+    .then(endpoints => res.status(200).send({ endpoints }))
     .catch(err => next(err));
 };

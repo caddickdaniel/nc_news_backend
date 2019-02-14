@@ -1,11 +1,11 @@
 //ERROR HANDLING FUNCTIONS
 
-const app = require('../app');
+// const app = require('../app');
 
 // exports.handle404((err, req, res, next) => {
-//   if (err.status === 404) res.status(404).send({ message: err.message });
+//   if (err.status === 404) return res.status(404).send({ message: err.message });
 //   else next(err);
-//   //<<<< err.message references the pre written message from
+//   //<<<< err.message references the pre written message from knex
 // });
 
 // exports.handle400((err, req, res, next) => {
@@ -14,7 +14,7 @@ const app = require('../app');
 //     '22P02': 'invalid input syntax for integer'
 //   };
 //   if (errorCodes400[code])
-//     res.status(400).send({ message: errorCodes400[code] });
+//     return res.status(400).send({ message: errorCodes400[code] });
 //   else next(err);
 // });
 

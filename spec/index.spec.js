@@ -458,139 +458,114 @@ describe('/api', () => {
           expect(body.user.username).to.equal('dantheman');
         });
     });
-    //     it('GET/ status 200/ responds with a user object by username', () => {
-    //       return request
-    //         .get('/api/users/:username')
-    //         .expect(200)
-    //         .then(({ body }) => {
-    //           //   console.log(body.user);
-    //           expect(body.user).to.be.an('object');
-    //           expect(body.user.username).to.equal('');
-    //           expect(body.user[0]).to.contain.keys(
-    //             'username',
-    //             'avatar_url',
-    //             'name'
-    //           );
-    //         });
-    //     });
-    //     it('GET/ status 200/ responds with articles from a given username', () => {
-    //       return request
-    //         .get('/api/users/:username/articles')
-    //         .expect(200)
-    //         .then(({ body }) => {
-    //           //   console.log(body);
-    //           expect(body.users).to.be.an('array');
-    //           expect(body.users[0]).to.contain.keys(
-    //             'total_count',
-    //             'articles',
-    //             'author',
-    //             'title',
-    //             'article_id',
-    //             'votes',
-    //             'comment_count',
-    //             'created_at',
-    //             'topic'
-    //           );
-    //         });
-    //     });
-    //     it('GET/ status 200/ responds with an array of users articles limited to 10 (DEFAULT_CASE)', () => {
-    //       return request
-    //         .get('/api/users/:username/articles')
-    //         .expect(200)
-    //         .then(({ body }) => {
-    //           //   console.log(body.users);
-    //           expect(body.users).to.be.an('array');
-    //           expect(body.users).to.have.length(10);
-    //         });
-    //     });
-    //     it('GET/ status 200/ responds with an array of comments limited to 5, (QUERY)', () => {
-    //       return request
-    //         .get('/api/users/:username/articles?limit=5')
-    //         .expect(200)
-    //         .then(({ body }) => {
-    //           //   console.log(body.users);
-    //           expect(body.users).to.be.an('array');
-    //           expect(body.users).to.have.length(5);
-    //           expect(body.users[0].author).to.equal('');
-    //         });
-    //     });
-    //     it('GET/ status 200/ responds with an array of users articles sorted by date(created_at) (DEFAULT_CASE)', () => {
-    //       return request
-    //         .get('/api/users/:username/articles')
-    //         .expect(200)
-    //         .then(({ body }) => {
-    //           //   console.log(body.users);
-    //           expect(body.users[0].author).to.equal('');
-    //         });
-    //     });
-    //     it('GET/ status 200/ responds with an array of user articles sorted by author (QUERY)', () => {
-    //       return request
-    //         .get('/api/users/:username/articles?sort_by=author')
-    //         .expect(200)
-    //         .then(({ body }) => {
-    //           //   console.log(body);
-    //           expect(body.users[0].author).to.equal('');
-    //         });
-    //     });
-    //     it('GET/ status 200/ responds with an array of user articles sorted by order (DEFAULT CASE = DESC)', () => {
-    //       return request
-    //         .get('/api/users/:username/articles')
-    //         .expect(200)
-    //         .then(({ body }) => {
-    //           //   console.log(body);
-    //           expect(body.users[0].author).to.equal('');
-    //         });
-    //     });
-    //     it('GET/ status 200/ responds with an array of comments sorted by order (QUERY = ASC)', () => {
-    //       return request
-    //         .get('/api/users/:username/articles?order=asc')
-    //         .expect(200)
-    //         .then(({ body }) => {
-    //           //   console.log(body);
-    //           expect(body.users[0].author).to.equal('');
-    //         });
-    //     });
-    //     it('GET/ status 200/ responds with a JSON describing all available endpoints on the API', () => {
-    //       return request
-    //         .get('/api')
-    //         .expect(200)
-    //         .then(({ body }) => {
-    //           //   console.log(body);
-    //         });
+    it('GET/ status 200/ responds with a user object by username', () => {
+      return request
+        .get('/api/users/butter_bridge')
+        .expect(200)
+        .then(({ body }) => {
+          //   console.log(body.user);
+          expect(body.user).to.be.an('object');
+          expect(body.user.username).to.equal('butter_bridge');
+          expect(body.user).to.contain.keys('username', 'avatar_url', 'name');
+        });
+    });
+  });
+  describe('/api', () => {
+    it('GET/ status 200/ responds with a JSON describing all available endpoints on the API', () => {
+      return request
+        .get('/api')
+        .send(endpoints)
+        .expect(200)
+        .then(({ body }) => {
+          //   console.log(body);
+          expect(body).to.be.an('object');
+          expect(body).to.contain.keys('');
+        });
+    });
+  });
+  describe('/errors', () => {
+    it('GET ERROR/ status 404/ responds with an error msg stating they have entered an incorrect endpoint', () => {
+      return request
+        .get('/api/top')
+        .expect(404)
+        .then(({ body }) => {
+          console.log(body);
+          expect(body.message).to.equal(
+            'Sorry, this page was not found! Go to /api to see a list of endpoints'
+          );
+        });
+    });
+    it('POST ERROR/ status 400/ responds with an error msg stating they have entered an incorrect syntax', () => {
+      const newTopic = {
+        description: 'A description of some sort',
+        slug: 'mitch',
+        username: 'dantheman'
+      };
+      return request
+        .post('/api/topics/')
+        .send(newTopic)
+        .expect(400)
+        .then(({ body }) => {
+          console.log(body);
+          expect(body.message).to.equal(
+            'Sorry, an incorrect format has been detected. Ensure you have typed in the correct format and try again'
+          );
+        });
+    });
+    it('POST ERROR/ status 422/ responds with an error msg stating they have entered a key that already exists', () => {
+      const newTopic = {
+        description: 'A description of some sort',
+        slug: 'mitch'
+      };
+      return request
+        .post('/api/topics/')
+        .send(newTopic)
+        .expect(422)
+        .then(({ body }) => {
+          console.log(body);
+          expect(body.message).to.equal(
+            'Sorry, the value you have entered already exists'
+          );
+        });
+    });
+    // it.only('DELETE ERROR/ status 405/ responds with an error msg stating they have chose a non-existent method on this endpoint', () => {
+    //   return request
+    //     .delete('/api/articles')
+    //     .expect(405)
+    //     .then(({ body }) => {
+    //       console.log(body);
+    //       expect(body.message).to.equal('Method Not Allowed');
     //     });
     // });
-    // describe('/errors', () => {
-    //     it('ERROR/ status 422/ responds with an error msg stating they have entered an already existing key', () => {
-    //       return request
-    //         .get('/api/users')
-    //         .expect(200)
-    //         .then(({ body }) => {
-    //           //   console.log(body);
-    //           expect(body.users).to.be.an('array');
-    //           expect(body.users[0]).to.contain.keys(
-    //             'username',
-    //             'avatar_url',
-    //             'name'
-    //           );
-    //         });
+    // it.only('GET ERROR/ status 404/ responds with an error msg stating they have entered a non-existent article_id', () => {
+    //   return request
+    //     .get('/api/articles/500')
+    //     .expect(404)
+    //     .then(({ body }) => {
+    //       console.log(body);
+    //       expect(body.message).to.equal(
+    //         'Sorry, this page was not found! Go to /api to see a list of endpoints'
+    //         //getting 200 instead of 404 even though there is no article_id 500
+    //       );
     //     });
-
-    //IN CONTROLLER WHEN 404 COMES BACK AS 200
-    // if() return Promise.reject({status: 404, message: 'mp not found'}) <-- before res.status
-    //then in app you need to create next middleware function with personalised error messages for various codes
-
-    //it get status 200 each party has mp count property
-    //return request
-    //.get /api/parties
-    //expect 200
-    //then body
-    //expect body parties [0] mpcount to equal ()
-
-    // SELECT parties.party, parties.founded
-    // COUNT (mps.mp_id) AS mp_count
-    // FROM parties JOIN mps ON parties.party = mps.party
-    // GROUP BY parties.party;
-    // ORDER BY parties.party DESC
-    // LIMIT 10;
+    // });
   });
 });
+
+//IN CONTROLLER WHEN 404 COMES BACK AS 200
+// if() return Promise.reject({status: 404, message: 'mp not found'}) <-- before res.status
+//then in app you need to create next middleware function with personalised error messages for various codes
+
+//it get status 200 each party has mp count property
+//return request
+//.get /api/parties
+//expect 200
+//then body
+//expect body parties [0] mpcount to equal ()
+
+// SELECT parties.party, parties.founded
+// COUNT (mps.mp_id) AS mp_count
+// FROM parties JOIN mps ON parties.party = mps.party
+// GROUP BY parties.party;
+// ORDER BY parties.party DESC
+// LIMIT 10;

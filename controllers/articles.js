@@ -32,7 +32,7 @@ exports.sendArticlesByID = (req, res, next) => {
       // console.log(articles);
       res.status(200).send({ articles });
     })
-    .catch(err => next(err));
+    .catch(err => console.log(err) || next(err));
 };
 
 exports.sendNewArticle = (req, res, next) => {

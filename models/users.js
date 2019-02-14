@@ -15,7 +15,3 @@ exports.getUsersByUsername = username => {
     .select('*')
     .where('users.username', '=', username);
 };
-
-exports.getArticlesByUser = () => {
-  return connection;
-};
