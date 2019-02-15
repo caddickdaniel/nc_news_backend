@@ -8,15 +8,12 @@
 //   //<<<< err.message references the pre written message from knex
 // });
 
-// exports.handle400((err, req, res, next) => {
-//   const { code } = err;
-//   const errorCodes400 = {
-//     '22P02': 'invalid input syntax for integer'
-//   };
-//   if (errorCodes400[code])
-//     return res.status(400).send({ message: errorCodes400[code] });
-//   else next(err);
-// });
-
-// //require in your app.js ^^^^
-// //app.use(handle404)
+exports.handle400 = (err, req, res, next) => {
+  console.log('HELOOOOOOO');
+  if (err.code === '42703' || '22P02') {
+    res.status(400).json({
+      message:
+        'Sorry, an incorrect format has been detected. Ensure you have typed in the correct format and try again'
+    });
+  }
+};

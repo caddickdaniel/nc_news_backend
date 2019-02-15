@@ -483,7 +483,7 @@ describe('/api', () => {
         });
     });
   });
-  describe('/errors', () => {
+  describe.only('/errors', () => {
     it('GET ERROR/ status 404/ responds with an error msg stating they have entered an incorrect endpoint', () => {
       return request
         .get('/api/top')
