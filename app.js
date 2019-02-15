@@ -15,6 +15,8 @@ app.all('/*', (req, res) => {
   });
 });
 
+//NEED TO MOVE THE ERROR FUNCTIONALITY INTO ITS OWN FOLDER
+
 app.use((err, req, res, next) => {
   console.log(err, '<<<<');
   if (err.code == '23505')
