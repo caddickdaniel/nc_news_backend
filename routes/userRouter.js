@@ -4,12 +4,17 @@ const {
   sendNewUser,
   sendUserByUsername
 } = require('../controllers/users');
+const { handle405 } = require('../errors');
 
 userRouter
   .route('/')
   .get(sendUsers)
-  .post(sendNewUser);
+  .post(sendNewUser)
+  .all(handle405);
 
-userRouter.route('/:username').get(sendUserByUsername);
+userRouter
+  .route('/:username')
+  .get(sendUserByUsername)
+  .all(handle405);
 
 module.exports = userRouter;

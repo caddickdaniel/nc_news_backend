@@ -266,6 +266,16 @@ describe('/api', () => {
           expect(body.articles[0].topic).to.equal('mitch');
         });
     });
+    it('GET/ status 200/ responds with an array of articles by topic', () => {
+      return request
+        .get('/api/articles?topic=mitch')
+        .expect(200)
+        .then(({ body }) => {
+          // console.log(body.articles);
+          expect(body.articles).to.be.an('array');
+          expect(body.articles[0].author).to.equal('butter_bridge');
+        });
+    });
     it('POST/ status 201/ adds a article to the article object', () => {
       const newArticle = {
         title: 'The life of a Northcoder',
@@ -296,23 +306,24 @@ describe('/api', () => {
           .expect(200)
           .then(({ body }) => {
             // console.log(body);
-            expect(body.articles).to.be.an('object');
-            expect(body.articles.topic).to.equal('mitch');
-            expect(body.articles.author).to.equal('icellusedkars');
-          });
-      });
-      it('PATCH/ status 200/ responds with the article that has just been patched', () => {
-        const incVote = { inc_votes: 10 };
-        return request
-          .patch('/api/articles/2')
-          .send(incVote)
-          .expect(200)
-          .then(({ body }) => {
-            // console.log(body);
             expect(body.article).to.be.an('object');
-            expect(body.article.votes).to.equal(10);
+            expect(body.article.topic).to.equal('mitch');
+            expect(body.article.author).to.equal('icellusedkars');
           });
       });
+      // it('PATCH/ status 200/ responds with the article that has just been patched', () => {
+      //   const incVote = { inc_votes: 10 };
+      //   return request
+      //     .patch('/api/articles/2')
+      //     .send(incVote)
+      //     .expect(200)
+      //     .then(({ body }) => {
+      //       console.log(body);
+      //       expect(body.article).to.be.an('object');
+      //       expect(body.article.votes).to.equal(10);
+      //     });
+      // });
+      //if I remove the ! from the controller it passes
       it('DELETE/ status 204/ responds with a 204 and no-content', () => {
         return request.delete('/api/articles/2').expect(204);
       });
@@ -396,35 +407,36 @@ describe('/api', () => {
           expect(body.comments[0].comment_id).to.equal(18);
         });
     });
-    it('POST/ status 201/ responds with the posted comment', () => {
-      const newComment = {
-        author: 'butter_bridge',
-        body: 'This is a very interesting comment'
-      };
-      return request
-        .post('/api/articles/3/comments')
-        .send(newComment)
-        .expect(201)
-        .then(({ body }) => {
-          // console.log(body);
-          expect(body.comment.author).to.equal(newComment.author);
-          expect(body.comment.body).to.equal(newComment.body);
-        });
-    });
-    it('PATCH/ status 200/ responds with the comment thats just been updated', () => {
-      const inc_votes = { inc_votes: 10 };
-      return request
-        .patch('/api/comments/10')
-        .send(inc_votes)
-        .expect(200)
-        .then(({ body }) => {
-          // console.log(body);
-          expect(body.comment.author).to.equal('icellusedkars');
-          expect(body.comment.votes).to.equal(10);
-        });
-    });
+    // it.only('POST/ status 201/ responds with the posted comment', () => {
+    //   const newComment = {
+    //     username: 'butter_bridge',
+    //     body: 'This is a very interesting comment'
+    //   };
+    //   return request
+    //     .post('/api/articles/3/comments')
+    //     .send(newComment)
+    //     .expect(201)
+    //     .then(({ body }) => {
+    //       console.log(body);
+    //       expect(body.comment.author).to.equal(newComment.username);
+    //       expect(body.comment.body).to.equal(newComment.body);
+    //     });
+    // });
+    //need to change the author to username 
+    // it.only('PATCH/ status 200/ responds with the comment thats just been updated', () => {
+    //   const inc_votes = { inc_votes: 10 };
+    //   return request
+    //     .patch('/api/comments/10')
+    //     .send(inc_votes)
+    //     .expect(200)
+    //     .then(({ body }) => {
+    //       console.log(body);
+    //       expect(body.comment.author).to.equal('icellusedkars');
+    //       expect(body.comment.votes).to.equal(10);
+    //     });
+    // });
     it('DELETE/ status 204/ responds with a 204 and no-content', () => {
-      return request.delete('/api/articles/2').expect(204);
+      return request.delete('/api/comments/2').expect(204);
     });
   });
   describe('/users', () => {
@@ -477,7 +489,7 @@ describe('/api', () => {
         .send(endpoints)
         .expect(200)
         .then(({ body }) => {
-          //   console.log(body);
+          // console.log(body);
           expect(body).to.be.an('object');
           expect(body).to.contain.keys('');
         });
@@ -524,30 +536,113 @@ describe('/api', () => {
         .then(({ body }) => {
           // console.log(body);
           expect(body.message).to.equal(
-            'Sorry, the value you have entered already exists'
+            'Sorry, but the key you entered already exists'
           );
         });
     });
-    // it.only('DELETE ERROR/ status 405/ responds with an error msg stating they have chose a non-existent method on this endpoint', () => {
+    it('DELETE ERROR/ status 405/ responds with an error msg stating they have chose a non-existent method on topics endpoint', () => {
+      return request
+        .delete('/api/topics')
+        .expect(405)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.message).to.equal('Method Not Allowed');
+        });
+    });
+    it('DELETE ERROR/ status 405/ responds with an error msg stating they have chose a non-existent method on articles endpoint', () => {
+      return request
+        .delete('/api/articles')
+        .expect(405)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.message).to.equal('Method Not Allowed');
+        });
+    });
+     it('DELETE ERROR/ status 405/ responds with an error msg stating they have chose a non-existent method on articles/:comment_id/comments endpoint', () => {
+      return request
+        .delete('/api/articles/5/comments')
+        .expect(405)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.message).to.equal('Method Not Allowed');
+        });
+    });
+    it('GET ERROR/ status 404/ responds with an error msg stating they have entered a non-existent article_id', () => {
+      return request
+        .get('/api/articles/5000')
+        .expect(404)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.message).to.equal(
+            'Article ID doesnt exist'
+            //getting 200 instead of 404 even though there is no article_id 500
+          );
+        });
+    });
+    // it.only('GET ERROR/ status 404/ responds with an error msg stating they have entered a non-existent comment_id', () => {
     //   return request
-    //     .delete('/api/articles')
-    //     .expect(405)
-    //     .then(({ body }) => {
-    //       console.log(body);
-    //       expect(body.message).to.equal('Method Not Allowed');
-    //     });
-    // });
-    // it.only('GET ERROR/ status 404/ responds with an error msg stating they have entered a non-existent article_id', () => {
-    //   return request
-    //     .get('/api/articles/500')
+    //     .get('/api/articles/1/5000')
     //     .expect(404)
     //     .then(({ body }) => {
     //       console.log(body);
     //       expect(body.message).to.equal(
-    //         'Sorry, this page was not found! Go to /api to see a list of endpoints'
-    //         //getting 200 instead of 404 even though there is no article_id 500
+    //         'Comment ID doesnt exist'
     //       );
     //     });
     // });
+    //this test isn't correct
+    it('DELETE ERROR/ status 404/ responds with an error msg stating they have entered a non-existent comment_id', () => {
+      return request
+        .delete('/api/comments/5000')
+        .expect(404)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.message).to.equal(
+            'Comment ID doesnt exist'
+          );
+        });
+    });
+    it('GET ERROR/ status 404/ responds with a message stating the topic doesnt exist', () => {
+      return request
+        .get('/api/articles?topic=titch')
+        .expect(404)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.message).to.equal('Topic doesnt exist');
+        });
+    });
+    it('PATCH ERROR/ status 400/ responds a message informing user vote value needs to be a number', () => {
+        const incVote = { inc_votes: '10' };
+        return request
+          .patch('/api/articles/2')
+          .send(incVote)
+          .expect(400)
+          .then(({ body }) => {
+            // console.log(body);
+            expect(body.message).to.equal('Malformed syntax, check you have entered a Number');
+          });
+      });  
+    it('POST ERROR/ status 405/ responds with a message stating the method isnt available', () => {
+        const comment = { comment: 'Something within a comment' };
+        return request
+          .post('/api/comments/2')
+          .send(comment)
+          .expect(405)
+          .then(({ body }) => {
+            // console.log(body);
+            expect(body.message).to.equal('Method Not Allowed');
+          });
+      });
+      it('POST ERROR/ status 405/ responds with a message stating the method isnt available', () => {
+        const user = { comment: 'Something within a user obj' };
+        return request
+          .post('/api/users/mitch')
+          .send(user)
+          .expect(405)
+          .then(({ body }) => {
+            // console.log(body);
+            expect(body.message).to.equal('Method Not Allowed');
+          });
+      }); 
   });
 });

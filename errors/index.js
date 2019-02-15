@@ -2,21 +2,41 @@
 
 // const app = require('../app');
 
-// exports.handle404((err, req, res, next) => {
-//   if (err.status === 404) return res.status(404).send({ message: err.message });
-//   else next(err);
-//   //<<<< err.message references the pre written message from knex
-// });
+exports.handle404 = (err, req, res, next) => {
+  if (err.status === 404) {
+    res.status(404).send({
+      status: 404,
+      message: err.message || 'Sorry, the page you have entered does not exist. Please try again'
+    });
+  } else {
+    next(err, req, res, next);
+  }
+};
 
-// exports.handle400((err, req, res, next) => {
-//   const { code } = err;
-//   const errorCodes400 = {
-//     '22P02': 'invalid input syntax for integer'
-//   };
-//   if (errorCodes400[code])
-//     return res.status(400).send({ message: errorCodes400[code] });
-//   else next(err);
-// });
+exports.handle400 = (err, req, res, next) => {
+  if (err.code === '42703' || err.code === '22P02') {
+    console.log(err);
+    res.status(400).json({
+      message:
+        'Sorry, an incorrect format has been detected. Ensure you have typed in the correct format and try again'
+    });
+  } else next(err, req, res, next);
+};
 
-// //require in your app.js ^^^^
-// //app.use(handle404)
+exports.handle422 = (err, req, res, next) => {
+  if (err.code === '23505' || err.code === '23503') {
+    res.status(422).json({
+      message: 'Sorry, but the key you entered already exists'
+    });
+  } else {
+    next(err, req, res, next);
+  }
+};
+
+exports.handle405 = (req, res, next) => {
+  res.status(405).json({ message: 'Method Not Allowed' });
+};
+
+exports.handle500 = (err, req, res, next) => {
+  res.status(500).send({ message: 'Oops! Something went wrong' });
+};

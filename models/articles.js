@@ -50,6 +50,25 @@ exports.getArticlesByID = articleById => {
     .returning('*');
 };
 
+exports.getArticlesByTopic = whereConditions => {
+  return connection
+    .select(
+      'articles.article_id',
+      'articles.author',
+      'articles.title',
+      'articles.votes',
+      'articles.topic',
+      'articles.body',
+      'articles.created_at'
+    )
+    .count('comments.article_id AS comment_count')
+    .leftJoin('comments', 'comments.article_id', '=', 'articles.article_id')
+    .groupBy('articles.article_id')
+    .from('articles')
+    .where(whereConditions)
+    .returning('*');
+};
+
 exports.addArticle = newArticle => {
   // console.log(newArticle);
   return connection
@@ -62,7 +81,7 @@ exports.patchArticleByID = (articleID, incBy) => {
   // console.log(incBy);
   return connection('articles')
     .where('articles.article_id', '=', articleID)
-    .increment('votes', incBy)
+    .increment('votes', incBy || 0)
     .returning('*');
 };
 
