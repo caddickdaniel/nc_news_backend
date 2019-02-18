@@ -1,6 +1,6 @@
 # NC News
 
-This is an API I have built to accompany my front end design for NC News. It includes articles, topics, comments and users end-points, with convenient user friendly functionality. You can find the most recent version of the API deployed over on <<<<<[Heroku](https://afternoon-beyond-70751.herokuapp.com/)
+This is an API I have built to accompany my front end design for NC News. It includes articles, topics, comments and users end-points, with convenient user friendly functionality. You can find the most recent version of the API deployed over on [Heroku](https://afternoon-beyond-70751.herokuapp.com/)
 
 ## Getting Started
 
