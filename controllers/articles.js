@@ -13,6 +13,7 @@ const {
 exports.sendArticles = (req, res, next) => {
   const { limit, sort_by, p, order, author } = req.query;
   const whereConditions = author ? { 'articles.author': author } : {};
+  
   Promise.all([
     getArticleCount(),
     getArticles(limit, sort_by, p, order, whereConditions)
@@ -22,6 +23,8 @@ exports.sendArticles = (req, res, next) => {
     })
     .catch(err => next(err));
 };
+
+//NEED TO ADD TOPIC AS A QUERY TO SEND ARTICLES
 
 exports.sendArticlesByID = (req, res, next) => {
   const articleById = req.params.article_id;
@@ -35,23 +38,6 @@ exports.sendArticlesByID = (req, res, next) => {
       res.status(200).send({ article });
     })
     .catch(err => next(err));
-};
-
-exports.sendArticlesByTopic = (req, res, next) => {
-  const topic = req.query;
-  const whereConditions = topic ? { 'articles.topic': topic } : {};
-
-  getArticlesByTopic(topic, whereConditions)
-    .then(articles => {
-      if (!topic)
-        //need condition to say if topic doesn't equal available topic, return promise reject
-        return Promise.reject({
-          status: 404,
-          message: 'Topic doesnt exist'
-        });
-      res.status(200).send({ articles });
-    })
-    .catch(err => console.log(err) || next(err));
 };
 
 exports.sendNewArticle = (req, res, next) => {
@@ -111,12 +97,9 @@ exports.sendCommentsByID = (req, res, next) => {
 
 exports.sendNewCommentByID = (req, res, next) => {
   const { article_id } = req.params;
-  const { newComment } = req.body;
+  const newComment = req.body;
 
   newCommentByID({ article_id, ...newComment })
-    // console
-    //   .log(newComment)
     .then(([comment]) => res.status(201).send({ comment }))
-
     .catch(err => console.log(err) || next(err));
 };
