@@ -44,13 +44,14 @@ exports.sendArticlesByTopic = (req, res, next) => {
   getArticlesByTopic(topic, whereConditions)
     .then(articles => {
       if (!topic)
+        //need condition to say if topic doesn't equal available topic, return promise reject
         return Promise.reject({
           status: 404,
           message: 'Topic doesnt exist'
         });
       res.status(200).send({ articles });
     })
-    .catch(err => next(err));
+    .catch(err => console.log(err) || next(err));
 };
 
 exports.sendNewArticle = (req, res, next) => {

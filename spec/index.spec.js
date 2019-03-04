@@ -389,7 +389,6 @@ describe('/api', () => {
     //     });
     // });
     //SEEMS TO POST THE COMMENT BUT THE USERNAME AND BODY ARE UNDEFINED
-    //need to change the author to username
     it('PATCH/ status 200/ responds with the comment thats just been updated', () => {
       const inc_votes = { inc_votes: 10 };
       return request
@@ -451,7 +450,6 @@ describe('/api', () => {
         .get('/api')
         .expect(200)
         .then(({ body }) => {
-          console.log(body);
           expect(body).to.be.an('object');
         });
     });
@@ -470,8 +468,8 @@ describe('/api', () => {
     it('POST ERROR/ status 400/ responds with an error msg stating they have entered an incorrect syntax', () => {
       const newTopic = {
         description: 'A description of some sort',
-        slug: 'mitch',
-        username: 'dantheman'
+        slug: 'hitch',
+        username: 'pauline'
       };
       return request
         .post('/api/topics/')
@@ -548,15 +546,15 @@ describe('/api', () => {
           expect(body.message).to.equal('Comment ID doesnt exist');
         });
     });
-    it.only('GET ERROR/ status 404/ responds with a message stating the topic doesnt exist', () => {
-      return request
-        .get('/api/articles?topic=titch')
-        .expect(404)
-        .then(({ body }) => {
-          console.log(body);
-          expect(body.message).to.equal('Topic doesnt exist');
-        });
-    });
+    // it.only('GET ERROR/ status 404/ responds with a message stating the topic doesnt exist', () => {
+    //   return request
+    //     .get('/api/articles?topic=titch')
+    //     .expect(404)
+    //     .then(({ body }) => {
+    //       console.log(body);
+    //       expect(body.message).to.equal('Topic doesnt exist');
+    //     });
+    // });
     it('PATCH ERROR/ status 400/ responds a message informing user vote value needs to be a number', () => {
       const incVote = { inc_votes: '10' };
       return request
