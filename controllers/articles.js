@@ -74,7 +74,7 @@ exports.sendPatchedArticle = (req, res, next) => {
         });
       res.status(200).send({ article });
     })
-    .catch(err => console.log(err) || next(err));
+    .catch(err => next(err));
 };
 
 exports.sendDeletedArticle = (req, res, next) => {
@@ -110,9 +110,12 @@ exports.sendCommentsByID = (req, res, next) => {
 
 exports.sendNewCommentByID = (req, res, next) => {
   const { article_id } = req.params;
+  const { newComment } = req.body;
 
   newCommentByID({ article_id, ...newComment })
+    // console
+    //   .log(newComment)
     .then(([comment]) => res.status(201).send({ comment }))
 
-    .catch(err => next(err));
+    .catch(err => console.log(err) || next(err));
 };

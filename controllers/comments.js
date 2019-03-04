@@ -6,7 +6,7 @@ exports.sendUpdatedComment = (req, res, next) => {
 
   updateComment(comment_id, inc_votes)
     .then(([comment]) => {
-      if (inc_votes !== Number)
+      if (typeof inc_votes !== 'number')
         return Promise.reject({
           status: 400,
           message: 'Malformed syntax, check you have entered a Number'
@@ -16,7 +16,7 @@ exports.sendUpdatedComment = (req, res, next) => {
           status: 404,
           message: 'Comment ID doesnt exist'
         });
-      res.sendStatus(204);
+      res.status(200).send({ comment });
     })
     .catch(err => next(err));
 };

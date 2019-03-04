@@ -286,7 +286,7 @@ describe('/api', () => {
             expect(body.article.author).to.equal('icellusedkars');
           });
       });
-      it.only('PATCH/ status 200/ responds with the article that has just been patched', () => {
+      it('PATCH/ status 200/ responds with the article that has just been patched', () => {
         const incVote = { inc_votes: 10 };
         return request
           .patch('/api/articles/2')
@@ -297,7 +297,6 @@ describe('/api', () => {
             expect(body.article.votes).to.equal(10);
           });
       });
-      //if I remove the ! from the controller it passes
       it('DELETE/ status 204/ responds with a 204 and no-content', () => {
         return request.delete('/api/articles/2').expect(204);
       });
@@ -384,24 +383,24 @@ describe('/api', () => {
     //     .send(newComment)
     //     .expect(201)
     //     .then(({ body }) => {
-    //       console.log(body);
+    //       console.log(body.comment);
     //       expect(body.comment.author).to.equal(newComment.username);
     //       expect(body.comment.body).to.equal(newComment.body);
     //     });
     // });
+    //SEEMS TO POST THE COMMENT BUT THE USERNAME AND BODY ARE UNDEFINED
     //need to change the author to username
-    // it.only('PATCH/ status 200/ responds with the comment thats just been updated', () => {
-    //   const inc_votes = { inc_votes: 10 };
-    //   return request
-    //     .patch('/api/comments/10')
-    //     .send(inc_votes)
-    //     .expect(200)
-    //     .then(({ body }) => {
-    //       console.log(body);
-    //       expect(body.comment.author).to.equal('icellusedkars');
-    //       expect(body.comment.votes).to.equal(10);
-    //     });
-    // });
+    it('PATCH/ status 200/ responds with the comment thats just been updated', () => {
+      const inc_votes = { inc_votes: 10 };
+      return request
+        .patch('/api/comments/10')
+        .send(inc_votes)
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.comment.author).to.equal('icellusedkars');
+          expect(body.comment.votes).to.equal(10);
+        });
+    });
     it('DELETE/ status 204/ responds with a 204 and no-content', () => {
       return request.delete('/api/comments/2').expect(204);
     });
@@ -523,15 +522,12 @@ describe('/api', () => {
           expect(body.message).to.equal('Method Not Allowed');
         });
     });
-    it('GET ERROR/ status 404/ responds with an error msg stating they have entered a non-existent article_id', () => {
+    it.only('GET ERROR/ status 404/ responds with an error msg stating they have entered a non-existent article_id', () => {
       return request
         .get('/api/articles/5000')
         .expect(404)
         .then(({ body }) => {
-          expect(body.message).to.equal(
-            'Article ID doesnt exist'
-            //getting 200 instead of 404 even though there is no article_id 500
-          );
+          expect(body.message).to.equal('Article ID doesnt exist');
         });
     });
     // it.only('GET ERROR/ status 404/ responds with an error msg stating they have entered a non-existent comment_id', () => {
@@ -562,31 +558,18 @@ describe('/api', () => {
     //       expect(body.message).to.equal('Topic doesnt exist');
     //     });
     // });
-    it.only('PATCH ERROR/ status 400/ responds a message informing user vote value needs to be a number', () => {
+    it('PATCH ERROR/ status 400/ responds a message informing user vote value needs to be a number', () => {
       const incVote = { inc_votes: '10' };
       return request
         .patch('/api/articles/2')
         .send(incVote)
         .expect(400)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.message).to.equal(
             'Malformed syntax, check you have entered a Number'
           );
         });
     });
-    // it.only('PATCH/ status 200/ responds with the article that has just been patched', () => {
-    //   const incVote = { inc_votes: 10 };
-    //   return request
-    //     .patch('/api/articles/2')
-    //     .send(incVote)
-    //     .expect(200)
-    //     .then(({ body }) => {
-    //       expect(body.article).to.be.an('object');
-    //       expect(body.article.votes).to.equal(10);
-    //     });
-    // });
-    //REMOVE THIS COMMENT
     it('POST ERROR/ status 405/ responds with a message stating the method isnt available', () => {
       const comment = { comment: 'Something within a comment' };
       return request
