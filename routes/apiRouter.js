@@ -13,6 +13,8 @@ apiRouter.use('/comments', commentRouter);
 
 apiRouter.use('/users', userRouter);
 
-apiRouter.get('/', (req, res, next) => {});
+apiRouter.get('/', (req, res, next) => {
+  res.status(200).send(endpoints);
+});
 
 module.exports = apiRouter;

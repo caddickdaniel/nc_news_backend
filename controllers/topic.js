@@ -16,7 +16,6 @@ exports.sendTopics = (req, res, next) => {
 exports.sendNewTopic = (req, res, next) => {
   const topic = req.body;
 
-  // console.log(topic);
   addTopic(topic)
     .then(([topic]) => res.status(201).send({ topic }))
     .catch(err => next(err));
@@ -24,7 +23,6 @@ exports.sendNewTopic = (req, res, next) => {
 
 exports.sendTopicArticles = (req, res, next) => {
   const topic = req.params.topic;
-  // console.log(topic);
   const { limit, sort_by, p, order } = req.query;
 
   Promise.all([

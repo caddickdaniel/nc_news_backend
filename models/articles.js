@@ -70,7 +70,6 @@ exports.getArticlesByTopic = whereConditions => {
 };
 
 exports.addArticle = newArticle => {
-  // console.log(newArticle);
   return connection
     .insert(newArticle)
     .into('articles')
@@ -78,7 +77,6 @@ exports.addArticle = newArticle => {
 };
 
 exports.patchArticleByID = (articleID, incBy) => {
-  // console.log(incBy);
   return connection('articles')
     .where('articles.article_id', '=', articleID)
     .increment('votes', incBy || 0)
@@ -112,7 +110,6 @@ exports.commentsByID = (
 };
 
 exports.newCommentByID = newComment => {
-  // console.log(newComment);
   return connection
     .insert(newComment)
     .into('comments')

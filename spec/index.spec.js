@@ -19,7 +19,6 @@ describe('/api', () => {
         .get('/api/topics')
         .expect(200)
         .then(({ body }) => {
-          //   console.log(body);
           expect(body.topics).to.be.an('array');
           expect(body.topics[0]).to.contain.keys('slug', 'description');
         });
@@ -29,7 +28,6 @@ describe('/api', () => {
         .get('/api/topics')
         .expect(200)
         .then(({ body }) => {
-          //   console.log(body.topics);
           expect(body.topics).to.be.an('array');
           expect(body.topics).to.have.length(2);
         });
@@ -39,7 +37,6 @@ describe('/api', () => {
         .get('/api/topics?limit=1')
         .expect(200)
         .then(({ body }) => {
-          //   console.log(body.topics);
           expect(body.topics).to.be.an('array');
           expect(body.topics).to.have.length(1);
           expect(body.topics[0].slug).to.equal('mitch');
@@ -50,7 +47,6 @@ describe('/api', () => {
         .get('/api/topics')
         .expect(200)
         .then(({ body }) => {
-          //   console.log(body.topics);
           expect(body.topics[0].slug).to.equal('mitch');
         });
     });
@@ -59,7 +55,6 @@ describe('/api', () => {
         .get('/api/topics?sort_by=description')
         .expect(200)
         .then(({ body }) => {
-          //   console.log(body);
           expect(body.topics[0].description).to.equal(
             'The man, the Mitch, the legend'
           );
@@ -70,7 +65,6 @@ describe('/api', () => {
         .get('/api/topics')
         .expect(200)
         .then(({ body }) => {
-          //   console.log(body);
           expect(body.topics[0].slug).to.equal('mitch');
         });
     });
@@ -79,7 +73,6 @@ describe('/api', () => {
         .get('/api/topics?order=asc')
         .expect(200)
         .then(({ body }) => {
-          //   console.log(body);
           expect(body.topics[0].slug).to.equal('cats');
         });
     });
@@ -89,7 +82,6 @@ describe('/api', () => {
           .get('/api/topics/mitch/articles')
           .expect(200)
           .then(({ body }) => {
-            // console.log(body);
             expect(body.articles).to.be.an('array');
             expect(body.articles[0].topic).to.equal('mitch');
           });
@@ -99,7 +91,6 @@ describe('/api', () => {
           .get('/api/topics/mitch/articles')
           .expect(200)
           .then(({ body }) => {
-            //   console.log(body.topics);
             expect(body.articles).to.be.an('array');
             expect(body.articles).to.have.length(10);
           });
@@ -109,7 +100,6 @@ describe('/api', () => {
           .get('/api/topics/mitch/articles?limit=5')
           .expect(200)
           .then(({ body }) => {
-            //   console.log(body.topics);
             expect(body.articles).to.be.an('array');
             expect(body.articles).to.have.length(5);
           });
@@ -119,7 +109,6 @@ describe('/api', () => {
           .get('/api/topics/mitch/articles')
           .expect(200)
           .then(({ body }) => {
-            // console.log(body.artilcles);
             expect(body.articles[0].title).to.equal(
               'Living in the shadow of a great man'
             );
@@ -130,7 +119,6 @@ describe('/api', () => {
           .get('/api/topics/mitch/articles?sort_by=created_at')
           .expect(200)
           .then(({ body }) => {
-            // console.log(body);
             expect(body.articles[0].created_at).to.equal(
               '2018-11-15T12:21:54.171Z'
             );
@@ -142,7 +130,6 @@ describe('/api', () => {
           .get('/api/topics/mitch/articles')
           .expect(200)
           .then(({ body }) => {
-            // console.log(body);
             expect(body.articles[0].article_id).to.equal(1);
           });
       });
@@ -151,7 +138,6 @@ describe('/api', () => {
           .get('/api/topics/mitch/articles?order=asc')
           .expect(200)
           .then(({ body }) => {
-            // console.log(body);
             expect(body.articles[0].article_id).to.equal(12);
             expect(body.articles[0].title).to.equal('Moustache');
           });
@@ -166,7 +152,6 @@ describe('/api', () => {
           .send(newTopic)
           .expect(201)
           .then(({ body }) => {
-            //   console.log(body);
             expect(body.topic.slug).to.equal('Topicness');
             expect(body.topic).to.contain.keys('slug', 'description');
             expect(body.topic).to.be.an('object');
@@ -180,7 +165,6 @@ describe('/api', () => {
         .get('/api/articles')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.articles).to.be.an('array');
           expect(body.articles[0]).to.contain.keys(
             'author',
@@ -200,7 +184,6 @@ describe('/api', () => {
         .get('/api/articles')
         .expect(200)
         .then(({ body }) => {
-          //   console.log(body.articles);
           expect(body.articles).to.be.an('array');
           expect(body.articles).to.have.length(10);
         });
@@ -210,7 +193,6 @@ describe('/api', () => {
         .get('/api/articles?limit=5')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.articles).to.be.an('array');
           expect(body.articles).to.have.length(5);
           expect(body.articles[0].topic).to.equal('mitch');
@@ -221,7 +203,6 @@ describe('/api', () => {
         .get('/api/articles')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.articles[0].topic).to.equal('mitch');
         });
     });
@@ -230,7 +211,6 @@ describe('/api', () => {
         .get('/api/articles?sort_by=created_at')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.articles[0].created_at).to.equal(
             '2018-11-15T12:21:54.171Z'
           );
@@ -241,7 +221,6 @@ describe('/api', () => {
         .get('/api/articles')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.articles[0].title).to.equal(
             'Living in the shadow of a great man'
           );
@@ -252,7 +231,6 @@ describe('/api', () => {
         .get('/api/articles?order=asc')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body.articles);
           expect(body.articles[0].title).to.equal('Moustache');
         });
     });
@@ -261,7 +239,6 @@ describe('/api', () => {
         .get('/api/articles?author=icellusedkars')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body.articles);
           expect(body.articles).to.be.an('array');
           expect(body.articles[0].topic).to.equal('mitch');
         });
@@ -271,7 +248,6 @@ describe('/api', () => {
         .get('/api/articles?topic=mitch')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body.articles);
           expect(body.articles).to.be.an('array');
           expect(body.articles[0].author).to.equal('butter_bridge');
         });
@@ -305,7 +281,6 @@ describe('/api', () => {
           .get('/api/articles/2')
           .expect(200)
           .then(({ body }) => {
-            // console.log(body);
             expect(body.article).to.be.an('object');
             expect(body.article.topic).to.equal('mitch');
             expect(body.article.author).to.equal('icellusedkars');
@@ -335,7 +310,6 @@ describe('/api', () => {
         .get('/api/articles/1/comments')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.comments).to.be.an('array');
           expect(body.comments[0]).to.contain.keys(
             'comment_id',
@@ -352,7 +326,6 @@ describe('/api', () => {
         .get('/api/articles/1/comments')
         .expect(200)
         .then(({ body }) => {
-          //   console.log(body.comments);
           expect(body.comments).to.be.an('array');
           expect(body.comments).to.have.length(10);
         });
@@ -362,7 +335,6 @@ describe('/api', () => {
         .get('/api/articles/1/comments?limit=5')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body.comments);
           expect(body.comments).to.be.an('array');
           expect(body.comments).to.have.length(5);
           expect(body.comments[1].author).to.equal('icellusedkars');
@@ -373,7 +345,6 @@ describe('/api', () => {
         .get('/api/articles/1/comments')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body.comments);
           expect(body.comments[0].author).to.equal('butter_bridge');
         });
     });
@@ -382,7 +353,6 @@ describe('/api', () => {
         .get('/api/articles/1/comments?sort_by=comment_id')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body.comments);
           expect(body.comments[0].comment_id).to.equal(18);
           expect(body.comments[0].author).to.equal('butter_bridge');
         });
@@ -392,7 +362,6 @@ describe('/api', () => {
         .get('/api/articles/1/comments')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body.comments);
           expect(body.comments[0].author).to.equal('butter_bridge');
           expect(body.comments[0].comment_id).to.equal(2);
         });
@@ -402,7 +371,6 @@ describe('/api', () => {
         .get('/api/articles/1/comments?order=asc')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body.comments);
           expect(body.comments[0].author).to.equal('butter_bridge');
           expect(body.comments[0].comment_id).to.equal(18);
         });
@@ -422,7 +390,7 @@ describe('/api', () => {
     //       expect(body.comment.body).to.equal(newComment.body);
     //     });
     // });
-    //need to change the author to username 
+    //need to change the author to username
     // it.only('PATCH/ status 200/ responds with the comment thats just been updated', () => {
     //   const inc_votes = { inc_votes: 10 };
     //   return request
@@ -445,7 +413,6 @@ describe('/api', () => {
         .get('/api/users')
         .expect(200)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.users).to.be.an('array');
           expect(body.users[0]).to.contain.keys(
             'username',
@@ -465,7 +432,6 @@ describe('/api', () => {
         .send(userObj)
         .expect(201)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.user).to.be.an('object');
           expect(body.user.username).to.equal('dantheman');
         });
@@ -475,7 +441,6 @@ describe('/api', () => {
         .get('/api/users/butter_bridge')
         .expect(200)
         .then(({ body }) => {
-          //   console.log(body.user);
           expect(body.user).to.be.an('object');
           expect(body.user.username).to.equal('butter_bridge');
           expect(body.user).to.contain.keys('username', 'avatar_url', 'name');
@@ -483,15 +448,13 @@ describe('/api', () => {
     });
   });
   describe('/api', () => {
-    it('GET/ status 200/ responds with a JSON describing all available endpoints on the API', () => {
+    it.only('GET/ status 200/ responds with a JSON describing all available endpoints on the API', () => {
       return request
         .get('/api')
-        .send(endpoints)
         .expect(200)
         .then(({ body }) => {
-          // console.log(body);
+          console.log(body);
           expect(body).to.be.an('object');
-          expect(body).to.contain.keys('');
         });
     });
   });
@@ -501,7 +464,6 @@ describe('/api', () => {
         .get('/api/top')
         .expect(404)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.message).to.equal(
             'Sorry, this page was not found! Go to /api to see a list of endpoints'
           );
@@ -518,7 +480,6 @@ describe('/api', () => {
         .send(newTopic)
         .expect(400)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.message).to.equal(
             'Sorry, an incorrect format has been detected. Ensure you have typed in the correct format and try again'
           );
@@ -534,7 +495,6 @@ describe('/api', () => {
         .send(newTopic)
         .expect(422)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.message).to.equal(
             'Sorry, but the key you entered already exists'
           );
@@ -545,7 +505,6 @@ describe('/api', () => {
         .delete('/api/topics')
         .expect(405)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.message).to.equal('Method Not Allowed');
         });
     });
@@ -554,16 +513,14 @@ describe('/api', () => {
         .delete('/api/articles')
         .expect(405)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.message).to.equal('Method Not Allowed');
         });
     });
-     it('DELETE ERROR/ status 405/ responds with an error msg stating they have chose a non-existent method on articles/:comment_id/comments endpoint', () => {
+    it('DELETE ERROR/ status 405/ responds with an error msg stating they have chose a non-existent method on articles/:comment_id/comments endpoint', () => {
       return request
         .delete('/api/articles/5/comments')
         .expect(405)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.message).to.equal('Method Not Allowed');
         });
     });
@@ -572,7 +529,6 @@ describe('/api', () => {
         .get('/api/articles/5000')
         .expect(404)
         .then(({ body }) => {
-          // console.log(body);
           expect(body.message).to.equal(
             'Article ID doesnt exist'
             //getting 200 instead of 404 even though there is no article_id 500
@@ -596,53 +552,48 @@ describe('/api', () => {
         .delete('/api/comments/5000')
         .expect(404)
         .then(({ body }) => {
-          // console.log(body);
-          expect(body.message).to.equal(
-            'Comment ID doesnt exist'
-          );
+          expect(body.message).to.equal('Comment ID doesnt exist');
         });
     });
-    it('GET ERROR/ status 404/ responds with a message stating the topic doesnt exist', () => {
-      return request
-        .get('/api/articles?topic=titch')
-        .expect(404)
-        .then(({ body }) => {
-          // console.log(body);
-          expect(body.message).to.equal('Topic doesnt exist');
-        });
-    });
-    it('PATCH ERROR/ status 400/ responds a message informing user vote value needs to be a number', () => {
-        const incVote = { inc_votes: '10' };
-        return request
-          .patch('/api/articles/2')
-          .send(incVote)
-          .expect(400)
-          .then(({ body }) => {
-            // console.log(body);
-            expect(body.message).to.equal('Malformed syntax, check you have entered a Number');
-          });
-      });  
+    // it('GET ERROR/ status 404/ responds with a message stating the topic doesnt exist', () => {
+    //   return request
+    //     .get('/api/articles?topic=titch')
+    //     .expect(404)
+    //     .then(({ body }) => {
+    //       expect(body.message).to.equal('Topic doesnt exist');
+    //     });
+    // });
+    // it('PATCH ERROR/ status 400/ responds a message informing user vote value needs to be a number', () => {
+    //   const incVote = { inc_votes: '10' };
+    //   return request
+    //     .patch('/api/articles/2')
+    //     .send(incVote)
+    //     .expect(400)
+    //     .then(({ body }) => {
+    //       expect(body.message).to.equal(
+    //         'Malformed syntax, check you have entered a Number'
+    //       );
+    //     });
+    // });
     it('POST ERROR/ status 405/ responds with a message stating the method isnt available', () => {
-        const comment = { comment: 'Something within a comment' };
-        return request
-          .post('/api/comments/2')
-          .send(comment)
-          .expect(405)
-          .then(({ body }) => {
-            // console.log(body);
-            expect(body.message).to.equal('Method Not Allowed');
-          });
-      });
-      it('POST ERROR/ status 405/ responds with a message stating the method isnt available', () => {
-        const user = { comment: 'Something within a user obj' };
-        return request
-          .post('/api/users/mitch')
-          .send(user)
-          .expect(405)
-          .then(({ body }) => {
-            // console.log(body);
-            expect(body.message).to.equal('Method Not Allowed');
-          });
-      }); 
+      const comment = { comment: 'Something within a comment' };
+      return request
+        .post('/api/comments/2')
+        .send(comment)
+        .expect(405)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Method Not Allowed');
+        });
+    });
+    it('POST ERROR/ status 405/ responds with a message stating the method isnt available', () => {
+      const user = { comment: 'Something within a user obj' };
+      return request
+        .post('/api/users/mitch')
+        .send(user)
+        .expect(405)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Method Not Allowed');
+        });
+    });
   });
 });
