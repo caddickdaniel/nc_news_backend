@@ -286,18 +286,17 @@ describe('/api', () => {
             expect(body.article.author).to.equal('icellusedkars');
           });
       });
-      // it('PATCH/ status 200/ responds with the article that has just been patched', () => {
-      //   const incVote = { inc_votes: 10 };
-      //   return request
-      //     .patch('/api/articles/2')
-      //     .send(incVote)
-      //     .expect(200)
-      //     .then(({ body }) => {
-      //       console.log(body);
-      //       expect(body.article).to.be.an('object');
-      //       expect(body.article.votes).to.equal(10);
-      //     });
-      // });
+      it.only('PATCH/ status 200/ responds with the article that has just been patched', () => {
+        const incVote = { inc_votes: 10 };
+        return request
+          .patch('/api/articles/2')
+          .send(incVote)
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.article).to.be.an('object');
+            expect(body.article.votes).to.equal(10);
+          });
+      });
       //if I remove the ! from the controller it passes
       it('DELETE/ status 204/ responds with a 204 and no-content', () => {
         return request.delete('/api/articles/2').expect(204);
@@ -448,7 +447,7 @@ describe('/api', () => {
     });
   });
   describe('/api', () => {
-    it.only('GET/ status 200/ responds with a JSON describing all available endpoints on the API', () => {
+    it('GET/ status 200/ responds with a JSON describing all available endpoints on the API', () => {
       return request
         .get('/api')
         .expect(200)
@@ -563,18 +562,31 @@ describe('/api', () => {
     //       expect(body.message).to.equal('Topic doesnt exist');
     //     });
     // });
-    // it('PATCH ERROR/ status 400/ responds a message informing user vote value needs to be a number', () => {
-    //   const incVote = { inc_votes: '10' };
+    it.only('PATCH ERROR/ status 400/ responds a message informing user vote value needs to be a number', () => {
+      const incVote = { inc_votes: '10' };
+      return request
+        .patch('/api/articles/2')
+        .send(incVote)
+        .expect(400)
+        .then(({ body }) => {
+          // console.log(body);
+          expect(body.message).to.equal(
+            'Malformed syntax, check you have entered a Number'
+          );
+        });
+    });
+    // it.only('PATCH/ status 200/ responds with the article that has just been patched', () => {
+    //   const incVote = { inc_votes: 10 };
     //   return request
     //     .patch('/api/articles/2')
     //     .send(incVote)
-    //     .expect(400)
+    //     .expect(200)
     //     .then(({ body }) => {
-    //       expect(body.message).to.equal(
-    //         'Malformed syntax, check you have entered a Number'
-    //       );
+    //       expect(body.article).to.be.an('object');
+    //       expect(body.article.votes).to.equal(10);
     //     });
     // });
+    //REMOVE THIS COMMENT
     it('POST ERROR/ status 405/ responds with a message stating the method isnt available', () => {
       const comment = { comment: 'Something within a comment' };
       return request

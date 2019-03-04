@@ -16,9 +16,10 @@ exports.handle404 = (err, req, res, next) => {
 };
 
 exports.handle400 = (err, req, res, next) => {
-  if (err.code === '42703' || err.code === '22P02') {
+  if (err.code === '42703' || err.code === '22P02' || err.status === 400) {
     res.status(400).json({
       message:
+        err.message ||
         'Sorry, an incorrect format has been detected. Ensure you have typed in the correct format and try again'
     });
   } else next(err, req, res, next);

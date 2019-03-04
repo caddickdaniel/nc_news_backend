@@ -67,14 +67,14 @@ exports.sendPatchedArticle = (req, res, next) => {
 
   patchArticleByID(article_id, inc_votes)
     .then(([article]) => {
-      if (inc_votes !== Number)
+      if (typeof inc_votes !== 'number')
         return Promise.reject({
           status: 400,
           message: 'Malformed syntax, check you have entered a Number'
         });
       res.status(200).send({ article });
     })
-    .catch(err => next(err));
+    .catch(err => console.log(err) || next(err));
 };
 
 exports.sendDeletedArticle = (req, res, next) => {
