@@ -10,7 +10,8 @@ app.use('/api', apiRouter);
 
 app.all('/*', (req, res) => {
   res.status(404).send({
-    message:'Sorry, this page was not found! Go to /api to see a list of endpoints'
+    message:
+      'Sorry, this page was not found! Go to /api to see a list of endpoints'
   });
 });
 

@@ -110,7 +110,6 @@ exports.commentsByID = (
 };
 
 exports.newCommentByID = newComment => {
-  // console.log(newComment);
   return connection
     .insert(newComment)
     .into('comments')

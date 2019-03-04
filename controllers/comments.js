@@ -18,7 +18,7 @@ exports.sendUpdatedComment = (req, res, next) => {
         });
       res.status(200).send({ comment });
     })
-    .catch(err => next(err));
+    .catch(err => console.log(err) || next(err));
 };
 
 exports.sendDeletedComment = (req, res, next) => {

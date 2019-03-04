@@ -522,7 +522,7 @@ describe('/api', () => {
           expect(body.message).to.equal('Method Not Allowed');
         });
     });
-    it.only('GET ERROR/ status 404/ responds with an error msg stating they have entered a non-existent article_id', () => {
+    it('GET ERROR/ status 404/ responds with an error msg stating they have entered a non-existent article_id', () => {
       return request
         .get('/api/articles/5000')
         .expect(404)
@@ -536,12 +536,10 @@ describe('/api', () => {
     //     .expect(404)
     //     .then(({ body }) => {
     //       console.log(body);
-    //       expect(body.message).to.equal(
-    //         'Comment ID doesnt exist'
-    //       );
+    //       expect(body.message).to.equal('Comment ID doesnt exist');
     //     });
     // });
-    //this test isn't correct
+    //HAVE I MADE THIS TEST UP? DO WE NEED TO HAVE A GET /API/ARTILCES/:ARTICLE_ID/:COMMENT_ID
     it('DELETE ERROR/ status 404/ responds with an error msg stating they have entered a non-existent comment_id', () => {
       return request
         .delete('/api/comments/5000')
@@ -550,14 +548,15 @@ describe('/api', () => {
           expect(body.message).to.equal('Comment ID doesnt exist');
         });
     });
-    // it('GET ERROR/ status 404/ responds with a message stating the topic doesnt exist', () => {
-    //   return request
-    //     .get('/api/articles?topic=titch')
-    //     .expect(404)
-    //     .then(({ body }) => {
-    //       expect(body.message).to.equal('Topic doesnt exist');
-    //     });
-    // });
+    it.only('GET ERROR/ status 404/ responds with a message stating the topic doesnt exist', () => {
+      return request
+        .get('/api/articles?topic=titch')
+        .expect(404)
+        .then(({ body }) => {
+          console.log(body);
+          expect(body.message).to.equal('Topic doesnt exist');
+        });
+    });
     it('PATCH ERROR/ status 400/ responds a message informing user vote value needs to be a number', () => {
       const incVote = { inc_votes: '10' };
       return request
