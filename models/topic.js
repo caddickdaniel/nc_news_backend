@@ -1,6 +1,6 @@
 const connection = require('../db/connection');
 
-exports.getTopics = (limit = 2, sort_by = 'slug', order = 'desc') => {
+exports.getTopics = (limit = 3, sort_by = 'slug', order = 'desc') => {
   return connection
     .select('*')
     .from('topics')

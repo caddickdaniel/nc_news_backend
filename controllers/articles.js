@@ -6,14 +6,13 @@ const {
   deleteArticleByID,
   addArticle,
   commentsByID,
-  newCommentByID,
-  getArticlesByTopic
+  newCommentByID
 } = require('../models/articles');
 
 exports.sendArticles = (req, res, next) => {
   const { limit, sort_by, p, order, author } = req.query;
   const whereConditions = author ? { 'articles.author': author } : {};
-  
+
   Promise.all([
     getArticleCount(),
     getArticles(limit, sort_by, p, order, whereConditions)
