@@ -11,7 +11,11 @@ const {
 
 exports.sendArticles = (req, res, next) => {
   const { limit, sort_by, p, order, author } = req.query;
-  const whereConditions = author ? { 'articles.author': author } : {};
+  const whereConditions = author
+    ? { 'articles.author': author }
+    : /*topic
+    ? { 'articles.topic': topic }
+    : */ {};
 
   Promise.all([
     getArticleCount(),

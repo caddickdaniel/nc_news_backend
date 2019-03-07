@@ -252,6 +252,16 @@ describe('/api', () => {
           expect(body.articles[0].author).to.equal('butter_bridge');
         });
     });
+    it('GET/ status 200/ responds with an array of articles on page 2 (QUERY = 2)', () => {
+      return request
+        .get('/api/articles?p=2')
+        .expect(200)
+        .then(({ body }) => {
+          console.log(body);
+          expect(body.articles).to.be.an('array');
+          expect(body.articles[0].author).to.equal('icellusedkars');
+        });
+    });
     it('POST/ status 201/ adds a article to the article object', () => {
       const newArticle = {
         title: 'The life of a Northcoder',
