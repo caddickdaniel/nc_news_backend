@@ -243,21 +243,21 @@ describe('/api', () => {
           expect(body.articles[0].topic).to.equal('mitch');
         });
     });
-    it('GET/ status 200/ responds with an array of articles by topic', () => {
-      return request
-        .get('/api/articles?topic=mitch')
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.articles).to.be.an('array');
-          expect(body.articles[0].author).to.equal('butter_bridge');
-        });
-    });
+    // it.only('GET/ status 200/ responds with an array of articles by topic', () => {
+    //   return request
+    //     .get('/api/articles?topic=coding')
+    //     .expect(200)
+    //     .then(({ body }) => {
+    //       console.log(body);
+    //       expect(body.articles).to.be.an('array');
+    //       expect(body.articles[0].author).to.equal('grumpy19');
+    //     });
+    // });
     it('GET/ status 200/ responds with an array of articles on page 2 (QUERY = 2)', () => {
       return request
         .get('/api/articles?p=2')
         .expect(200)
         .then(({ body }) => {
-          console.log(body);
           expect(body.articles).to.be.an('array');
           expect(body.articles[0].author).to.equal('icellusedkars');
         });

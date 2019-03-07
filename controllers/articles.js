@@ -10,12 +10,12 @@ const {
 } = require('../models/articles');
 
 exports.sendArticles = (req, res, next) => {
-  const { limit, sort_by, p, order, author } = req.query;
+  const { limit, sort_by, p, order, author, topic } = req.query;
   const whereConditions = author
     ? { 'articles.author': author }
-    : /*topic
+    : topic
     ? { 'articles.topic': topic }
-    : */ {};
+    : {};
 
   Promise.all([
     getArticleCount(),
@@ -26,8 +26,6 @@ exports.sendArticles = (req, res, next) => {
     })
     .catch(err => next(err));
 };
-
-//NEED TO ADD TOPIC AS A QUERY TO SEND ARTICLES
 
 exports.sendArticlesByID = (req, res, next) => {
   const articleById = req.params.article_id;
