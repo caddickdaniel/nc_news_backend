@@ -5,9 +5,8 @@ exports.getArticles = (
   sort_by = 'created_at',
   p,
   order = 'desc',
-  whereConditions
-) => {
-  return connection
+  whereConditions,
+) => connection
     .select(
       'articles.article_id',
       'articles.body',
@@ -25,14 +24,10 @@ exports.getArticles = (
     .limit(limit, p)
     .offset((p - 1) * limit)
     .orderBy(sort_by, order);
-};
 
-exports.getArticleCount = () => {
-  return connection.count('article_id AS total_count').from('articles');
-};
+exports.getArticleCount = () => connection.count('article_id AS total_count').from('articles');
 
-exports.getArticlesByID = articleById => {
-  return connection
+exports.getArticlesByID = (articleById) => connection
     .select(
       'articles.article_id',
       'articles.author',
@@ -48,36 +43,28 @@ exports.getArticlesByID = articleById => {
     .from('articles')
     .where('articles.article_id', '=', articleById)
     .returning('*');
-};
 
-exports.addArticle = newArticle => {
-  return connection
+exports.addArticle = (newArticle) => connection
     .insert(newArticle)
     .into('articles')
     .returning('*');
-};
 
-exports.patchArticleByID = (articleID, incBy) => {
-  return connection('articles')
+exports.patchArticleByID = (articleID, incBy) => connection('articles')
     .where('articles.article_id', '=', articleID)
     .increment('votes', incBy || 0)
     .returning('*');
-};
 
-exports.deleteArticleByID = article => {
-  return connection('articles')
+exports.deleteArticleByID = (article) => connection('articles')
     .where('articles.article_id', '=', article)
     .del();
-};
 
 exports.commentsByID = (
   article_id,
   limit = 10,
   p = 1,
   sort_by = 'created_at',
-  order = 'desc'
-) => {
-  return (
+  order = 'desc',
+) => (
     connection('comments')
       .select('comments.*')
       .leftJoin('articles', 'articles.article_id', '=', 'comments.article_id')
@@ -88,11 +75,8 @@ exports.commentsByID = (
       .orderBy(sort_by, order)
       .returning('*')
   );
-};
 
-exports.newCommentByID = newComment => {
-  return connection
+exports.newCommentByID = (newComment) => connection
     .insert(newComment)
     .into('comments')
     .returning('*');
-};
