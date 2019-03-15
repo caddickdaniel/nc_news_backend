@@ -7,56 +7,56 @@ exports.getArticles = (
   order = 'desc',
   whereConditions,
 ) => connection
-    .select(
-      'articles.article_id',
-      'articles.body',
-      'articles.created_at',
-      'articles.title',
-      'articles.topic',
-      'articles.votes',
-      'articles.author'
-    )
-    .count('comments.article_id AS comment_count')
-    .from('articles')
-    .where(whereConditions)
-    .leftJoin('comments', 'articles.article_id', '=', 'comments.article_id')
-    .groupBy('articles.article_id')
-    .limit(limit, p)
-    .offset((p - 1) * limit)
-    .orderBy(sort_by, order);
+  .select(
+    'articles.article_id',
+    'articles.body',
+    'articles.created_at',
+    'articles.title',
+    'articles.topic',
+    'articles.votes',
+    'articles.author',
+  )
+  .count('comments.article_id AS comment_count')
+  .from('articles')
+  .where(whereConditions)
+  .leftJoin('comments', 'articles.article_id', '=', 'comments.article_id')
+  .groupBy('articles.article_id')
+  .limit(limit, p)
+  .offset((p - 1) * limit)
+  .orderBy(sort_by, order);
 
 exports.getArticleCount = () => connection.count('article_id AS total_count').from('articles');
 
-exports.getArticlesByID = (articleById) => connection
-    .select(
-      'articles.article_id',
-      'articles.author',
-      'articles.title',
-      'articles.votes',
-      'articles.topic',
-      'articles.body',
-      'articles.created_at'
-    )
-    .count('comments.article_id AS comment_count')
-    .leftJoin('comments', 'comments.article_id', '=', 'articles.article_id')
-    .groupBy('articles.article_id')
-    .from('articles')
-    .where('articles.article_id', '=', articleById)
-    .returning('*');
+exports.getArticlesByID = articleById => connection
+  .select(
+    'articles.article_id',
+    'articles.author',
+    'articles.title',
+    'articles.votes',
+    'articles.topic',
+    'articles.body',
+    'articles.created_at',
+  )
+  .count('comments.article_id AS comment_count')
+  .leftJoin('comments', 'comments.article_id', '=', 'articles.article_id')
+  .groupBy('articles.article_id')
+  .from('articles')
+  .where('articles.article_id', '=', articleById)
+  .returning('*');
 
-exports.addArticle = (newArticle) => connection
-    .insert(newArticle)
-    .into('articles')
-    .returning('*');
+exports.addArticle = newArticle => connection
+  .insert(newArticle)
+  .into('articles')
+  .returning('*');
 
 exports.patchArticleByID = (articleID, incBy) => connection('articles')
-    .where('articles.article_id', '=', articleID)
-    .increment('votes', incBy || 0)
-    .returning('*');
+  .where('articles.article_id', '=', articleID)
+  .increment('votes', incBy || 0)
+  .returning('*');
 
-exports.deleteArticleByID = (article) => connection('articles')
-    .where('articles.article_id', '=', article)
-    .del();
+exports.deleteArticleByID = article => connection('articles')
+  .where('articles.article_id', '=', article)
+  .del();
 
 exports.commentsByID = (
   article_id,
@@ -65,18 +65,18 @@ exports.commentsByID = (
   sort_by = 'created_at',
   order = 'desc',
 ) => (
-    connection('comments')
-      .select('comments.*')
-      .leftJoin('articles', 'articles.article_id', '=', 'comments.article_id')
-      // .groupBy('articles.article_id')
-      .where('comments.article_id', '=', article_id)
-      .limit(limit, p)
-      .offset((p - 1) * limit)
-      .orderBy(sort_by, order)
-      .returning('*')
-  );
+  connection('comments')
+    .select('comments.*')
+    .leftJoin('articles', 'articles.article_id', '=', 'comments.article_id')
+  // .groupBy('articles.article_id')
+    .where('comments.article_id', '=', article_id)
+    .limit(limit, p)
+    .offset((p - 1) * limit)
+    .orderBy(sort_by, order)
+    .returning('*')
+);
 
-exports.newCommentByID = (newComment) => connection
-    .insert(newComment)
-    .into('comments')
-    .returning('*');
+exports.newCommentByID = newComment => connection
+  .insert(newComment)
+  .into('comments')
+  .returning('*');
