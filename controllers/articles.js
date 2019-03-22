@@ -18,10 +18,7 @@ exports.sendArticles = (req, res, next) => {
     : topic
       ? { 'articles.topic': topic }
       : {};
-  Promise.all([
-    getArticleCount(),
-    getArticles(limit, sort_by, p, order, whereConditions),
-  ])
+  Promise.all([getArticleCount(), getArticles(limit, sort_by, p, order, whereConditions)])
     .then(([total_count, articles]) => {
       res.status(200).send({ total_count, articles });
     })
@@ -33,11 +30,11 @@ exports.sendArticlesByID = (req, res, next) => {
   getArticlesByID(articleById)
     .then(([article]) => {
       if (!article) {
- return Promise.reject({
-        status: 404,
-        message: 'Article ID doesnt exist',
-      }); 
-}
+        return Promise.reject({
+          status: 404,
+          message: 'Article ID doesnt exist',
+        });
+      }
       res.status(200).send({ article });
     })
     .catch(err => next(err));
@@ -58,11 +55,11 @@ exports.sendPatchedArticle = (req, res, next) => {
   patchArticleByID(article_id, inc_votes)
     .then(([article]) => {
       if (typeof inc_votes !== 'number') {
- return Promise.reject({
-        status: 400,
-        message: 'Malformed syntax, check you have entered a Number',
-      });
- }
+        return Promise.reject({
+          status: 400,
+          message: 'Malformed syntax, check you have entered a Number',
+        });
+      }
       res.status(200).send({ article });
     })
     .catch(err => next(err));
@@ -74,11 +71,11 @@ exports.sendDeletedArticle = (req, res, next) => {
   deleteArticleByID(article_id)
     .then(() => {
       if (!article_id) {
- return Promise.reject({
-        status: 404,
-        message: 'Article ID doesnt exist',
-      }); 
-}
+        return Promise.reject({
+          status: 404,
+          message: 'Article ID doesnt exist',
+        });
+      }
       res.sendStatus(204);
     })
     .catch(err => next(err));
@@ -93,11 +90,11 @@ exports.sendCommentsByID = (req, res, next) => {
   commentsByID(article_id, limit, p, sort_by, order)
     .then((comments) => {
       if (!comments) {
- return Promise.reject({
-        status: 400,
-        message: 'Unfortunately there isnt any comments for this article',
-      });
- }
+        return Promise.reject({
+          status: 400,
+          message: 'Unfortunately there isnt any comments for this article',
+        });
+      }
       res.status(200).send({ comments });
     })
     .catch(err => next(err));

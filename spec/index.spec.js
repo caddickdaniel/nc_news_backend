@@ -44,9 +44,7 @@ describe('/api', () => {
       .get('/api/topics?sort_by=description')
       .expect(200)
       .then(({ body }) => {
-        expect(body.topics[0].description).to.equal(
-          'The man, the Mitch, the legend',
-        );
+        expect(body.topics[0].description).to.equal('The man, the Mitch, the legend');
       }));
     it('GET/ status 200/ responds with an array of topics sorted by order (DEFAULT CASE = DESC)', () => request
       .get('/api/topics')
@@ -86,17 +84,13 @@ describe('/api', () => {
         .get('/api/topics/mitch/articles')
         .expect(200)
         .then(({ body }) => {
-          expect(body.articles[0].title).to.equal(
-            'Living in the shadow of a great man',
-          );
+          expect(body.articles[0].title).to.equal('Living in the shadow of a great man');
         }));
       it('GET/ status 200/ responds with an array of articles relating to a specific topic sorted by date created(created_at) (QUERY)', () => request
         .get('/api/topics/mitch/articles?sort_by=created_at')
         .expect(200)
         .then(({ body }) => {
-          expect(body.articles[0].created_at).to.equal(
-            '2018-11-15T12:21:54.171Z',
-          );
+          expect(body.articles[0].created_at).to.equal('2018-11-15T12:21:54.171Z');
           expect(body.articles[0].topic).to.equal('mitch');
         }));
       it('GET/ status 200/ responds with an array of articles relating to a specific topic sorted by order (DEFAULT CASE = DESC)', () => request
@@ -172,17 +166,13 @@ describe('/api', () => {
       .get('/api/articles?sort_by=created_at')
       .expect(200)
       .then(({ body }) => {
-        expect(body.articles[0].created_at).to.equal(
-          '2018-11-15T12:21:54.171Z',
-        );
+        expect(body.articles[0].created_at).to.equal('2018-11-15T12:21:54.171Z');
       }));
     it('GET/ status 200/ responds with an array of articles sorted by order (DEFAULT CASE = DESC)', () => request
       .get('/api/articles')
       .expect(200)
       .then(({ body }) => {
-        expect(body.articles[0].title).to.equal(
-          'Living in the shadow of a great man',
-        );
+        expect(body.articles[0].title).to.equal('Living in the shadow of a great man');
       }));
     it('GET/ status 200/ responds with an array of articles sorted by order (QUERY = ASC)', () => request
       .get('/api/articles?order=asc')
@@ -224,13 +214,7 @@ describe('/api', () => {
         .expect(201)
         .then(({ body }) => {
           expect(body.article.title).to.equal('The life of a Northcoder');
-          expect(body.article).to.contain.keys(
-            'title',
-            'topic',
-            'author',
-            'body',
-            'created_at',
-          );
+          expect(body.article).to.contain.keys('title', 'topic', 'author', 'body', 'created_at');
           expect(body.article).to.be.an('object');
         });
     });
@@ -347,11 +331,7 @@ describe('/api', () => {
       .expect(200)
       .then(({ body }) => {
         expect(body.users).to.be.an('array');
-        expect(body.users[0]).to.contain.keys(
-          'username',
-          'avatar_url',
-          'name',
-        );
+        expect(body.users[0]).to.contain.keys('username', 'avatar_url', 'name');
       }));
     it('POST/ status 201/ responds with the posted user', () => {
       const userObj = {
@@ -420,9 +400,7 @@ describe('/api', () => {
         .send(newTopic)
         .expect(422)
         .then(({ body }) => {
-          expect(body.message).to.equal(
-            'Sorry, but the key you entered already exists',
-          );
+          expect(body.message).to.equal('Sorry, but the key you entered already exists');
         });
     });
     it('DELETE ERROR/ status 405/ responds with an error msg stating they have chose a non-existent method on topics endpoint', () => request
@@ -455,13 +433,15 @@ describe('/api', () => {
       .then(({ body }) => {
         expect(body.message).to.equal('Comment ID doesnt exist');
       }));
-    it.only('GET ERROR/ status 404/ responds with a message stating the topic doesnt exist', () => request
-      .get('/api/articles?topic=titch')
-      .expect(404)
-      .then(({ body }) => {
-        console.log(body);
-        expect(body.message).to.equal('Topic doesnt exist');
-      }));
+    // it('GET ERROR/ status 404/ responds with a message stating the topic doesnt exist', () => request
+    //   .get('/api/articles?topic=titch')
+    //   .expect(404)
+    //   .then(({ body }) => {
+    //     console.log(body);
+    //     expect(body.message).to.equal(
+    //       'Topic doesnt exist' || 'There are no articles for this topic',
+    //     );
+    //   }));
     it('PATCH ERROR/ status 400/ responds a message informing user vote value needs to be a number', () => {
       const incVote = { inc_votes: '10' };
       return request
@@ -469,9 +449,7 @@ describe('/api', () => {
         .send(incVote)
         .expect(400)
         .then(({ body }) => {
-          expect(body.message).to.equal(
-            'Malformed syntax, check you have entered a Number',
-          );
+          expect(body.message).to.equal('Malformed syntax, check you have entered a Number');
         });
     });
     it('POST ERROR/ status 405/ responds with a message stating the method isnt available', () => {

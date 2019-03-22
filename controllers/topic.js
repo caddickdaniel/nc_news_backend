@@ -1,8 +1,5 @@
 const {
-  getTopics,
-  addTopic,
-  getTopicArticles,
-  countTopicArticles
+  getTopics, addTopic, getTopicArticles, countTopicArticles,
 } = require('../models/topic');
 
 exports.sendTopics = (req, res, next) => {
@@ -22,15 +19,21 @@ exports.sendNewTopic = (req, res, next) => {
 };
 
 exports.sendTopicArticles = (req, res, next) => {
-  const topic = req.params.topic;
-  const { limit, sort_by, p, order } = req.query;
+  const { topic } = req.params.topic;
+  const {
+    limit, sort_by, p, order,
+  } = req.query;
 
-  Promise.all([
-    getTopicArticles(topic, limit, sort_by, p, order),
-    countTopicArticles(topic)
-  ])
-    .then(([articles, total_count]) =>
-      res.status(200).send({ articles, total_count })
-    )
+  Promise.all([getTopicArticles(topic, limit, sort_by, p, order), countTopicArticles(topic)])
+    .then(([articles, total_count]) => {
+      if (!articles) {
+        return Promise.reject({
+          status: 404,
+          message: 'There are no articles for this topic',
+        });
+      }
+
+      res.status(200).send({ articles, total_count });
+    })
     .catch(err => next(err));
 };
