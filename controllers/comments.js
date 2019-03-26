@@ -6,16 +6,18 @@ exports.sendUpdatedComment = (req, res, next) => {
 
   updateComment(comment_id, inc_votes)
     .then(([comment]) => {
-      if (typeof inc_votes !== 'number')
+      if (typeof inc_votes !== 'number') {
         return Promise.reject({
           status: 400,
-          message: 'Malformed syntax, check you have entered a Number'
+          message: 'Malformed syntax, check you have entered a Number',
         });
-      if (!comment_id)
+      }
+      if (!comment_id) {
         return Promise.reject({
           status: 404,
-          message: 'Comment ID doesnt exist'
+          message: 'Comment ID doesnt exist',
         });
+      }
       res.status(200).send({ comment });
     })
     .catch(err => console.log(err) || next(err));
@@ -25,12 +27,13 @@ exports.sendDeletedComment = (req, res, next) => {
   const { comment_id } = req.params;
 
   deleteCommentByID(comment_id)
-    .then(response => {
-      if (!response)
+    .then((response) => {
+      if (!response) {
         return Promise.reject({
           status: 404,
-          message: 'Comment ID doesnt exist'
+          message: 'Comment ID doesnt exist',
         });
+      }
       res.sendStatus(204);
     })
     .catch(err => next(err));

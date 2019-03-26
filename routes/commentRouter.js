@@ -1,8 +1,5 @@
 const commentRouter = require('express').Router();
-const {
-  sendUpdatedComment,
-  sendDeletedComment
-} = require('../controllers/comments');
+const { sendUpdatedComment, sendDeletedComment } = require('../controllers/comments');
 const { handle405 } = require('../errors');
 
 commentRouter

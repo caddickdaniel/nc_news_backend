@@ -1,9 +1,5 @@
 const topicRouter = require('express').Router();
-const {
-  sendTopics,
-  sendNewTopic,
-  sendTopicArticles
-} = require('../controllers/topic');
+const { sendTopics, sendNewTopic, sendTopicArticles } = require('../controllers/topic');
 const { handle405 } = require('../errors');
 
 topicRouter

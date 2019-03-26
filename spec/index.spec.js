@@ -73,12 +73,12 @@ describe('/api', () => {
           expect(body.articles).to.be.an('array');
           expect(body.articles).to.have.length(10);
         }));
-      it('GET/ status 200/ responds with an array of articles relating to a specific topic limited to 5, (QUERY)', () => request
-        .get('/api/topics/mitch/articles?limit=5')
+      it('GET/ status 200/ responds with an array of articles relating to a specific topic limited to 10, (QUERY)', () => request
+        .get('/api/topics/mitch/articles?limit=10')
         .expect(200)
         .then(({ body }) => {
           expect(body.articles).to.be.an('array');
-          expect(body.articles).to.have.length(5);
+          expect(body.articles).to.have.length(10);
         }));
       it('GET/ status 200/ responds with an array of articles relating to a specific topic sorted by title (DEFAULT_CASE)', () => request
         .get('/api/topics/mitch/articles')
@@ -433,15 +433,6 @@ describe('/api', () => {
       .then(({ body }) => {
         expect(body.message).to.equal('Comment ID doesnt exist');
       }));
-    // it('GET ERROR/ status 404/ responds with a message stating the topic doesnt exist', () => request
-    //   .get('/api/articles?topic=titch')
-    //   .expect(404)
-    //   .then(({ body }) => {
-    //     console.log(body);
-    //     expect(body.message).to.equal(
-    //       'Topic doesnt exist' || 'There are no articles for this topic',
-    //     );
-    //   }));
     it('PATCH ERROR/ status 400/ responds a message informing user vote value needs to be a number', () => {
       const incVote = { inc_votes: '10' };
       return request

@@ -6,7 +6,7 @@ const {
   sendPatchedArticle,
   sendDeletedArticle,
   sendCommentsByID,
-  sendNewCommentByID
+  sendNewCommentByID,
 } = require('../controllers/articles');
 const { handle405 } = require('../errors');
 

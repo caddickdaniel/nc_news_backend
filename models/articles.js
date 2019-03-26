@@ -1,12 +1,6 @@
 const connection = require('../db/connection');
 
-exports.getArticles = (
-  limit = 10,
-  sort_by = 'created_at',
-  p,
-  order = 'desc',
-  whereConditions,
-) => connection
+exports.getArticles = (limit = 10, sort_by = 'created_at', p, order = 'desc', whereConditions) => connection
   .select(
     'articles.article_id',
     'articles.body',
@@ -58,23 +52,15 @@ exports.deleteArticleByID = article => connection('articles')
   .where('articles.article_id', '=', article)
   .del();
 
-exports.commentsByID = (
-  article_id,
-  limit = 10,
-  p = 1,
-  sort_by = 'created_at',
-  order = 'desc',
-) => (
-  connection('comments')
-    .select('comments.*')
-    .leftJoin('articles', 'articles.article_id', '=', 'comments.article_id')
-  // .groupBy('articles.article_id')
-    .where('comments.article_id', '=', article_id)
-    .limit(limit, p)
-    .offset((p - 1) * limit)
-    .orderBy(sort_by, order)
-    .returning('*')
-);
+exports.commentsByID = (article_id, limit = 10, p = 1, sort_by = 'created_at', order = 'desc') => connection('comments')
+  .select('comments.*')
+  .leftJoin('articles', 'articles.article_id', '=', 'comments.article_id')
+// .groupBy('articles.article_id')
+  .where('comments.article_id', '=', article_id)
+  .limit(limit, p)
+  .offset((p - 1) * limit)
+  .orderBy(sort_by, order)
+  .returning('*');
 
 exports.newCommentByID = newComment => connection
   .insert(newComment)

@@ -19,7 +19,7 @@ exports.sendNewTopic = (req, res, next) => {
 };
 
 exports.sendTopicArticles = (req, res, next) => {
-  const { topic } = req.params.topic;
+  const { topic } = req.params;
   const {
     limit, sort_by, p, order,
   } = req.query;

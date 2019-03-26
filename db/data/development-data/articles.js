@@ -40,8 +40,7 @@ module.exports = [
     created_at: 1477282382648,
   },
   {
-    title:
-      'JavaScript’s Apply, Call, and Bind Methods are Essential for JavaScript Professionals',
+    title: 'JavaScript’s Apply, Call, and Bind Methods are Essential for JavaScript Professionals',
     topic: 'coding',
     author: 'grumpy19',
     body:
@@ -73,8 +72,7 @@ module.exports = [
     created_at: 1488766934447,
   },
   {
-    title:
-      'An Introduction to JavaScript Object Notation (JSON) in JavaScript and .NET',
+    title: 'An Introduction to JavaScript Object Notation (JSON) in JavaScript and .NET',
     topic: 'coding',
     author: 'cooljmessy',
     body:
@@ -234,8 +232,7 @@ module.exports = [
     created_at: 1489238418573,
   },
   {
-    title:
-      'Twice-Baked Butternut Squash Is the Thanksgiving Side Dish of Your Dreams',
+    title: 'Twice-Baked Butternut Squash Is the Thanksgiving Side Dish of Your Dreams',
     topic: 'cooking',
     author: 'jessjelly',
     body:
